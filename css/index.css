@@ -1,0 +1,167 @@
+.room-select-lead {
+  font-size: 18px;
+  font-weight: bold;
+  width: 700px;
+  margin-left: auto;
+}
+
+.room-container {
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.room {
+  width: 700px;
+  min-height: 150px;
+  overflow: hidden;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(236, 236, 236, 0.1);
+  border: 1px solid rgba(236, 236, 236, 0.5);
+  box-sizing: border-box;
+  padding: 10px 20px;
+  transition: .1s;
+  position: relative;
+}
+.room:hover {
+  background-color: rgba(236, 236, 236, 0.5);
+}
+
+.room .room-info {
+  width: 590px;
+  min-height: 150px;
+  float: left;
+  overflow: hidden;
+}
+
+.room-info-list {
+  width: 150px;
+  float: left;
+  overflow: hidden;
+  height: 50px;
+  line-height: 50px;
+}
+.room-info .room-tag{
+  width: 250px;
+  height: 50px;
+}
+.room-tag .tag{
+  float: left;
+  overflow: hidden;
+  height: 20px;
+  font-size: 14px;
+  margin-bottom: 5px;
+  margin-right: 10px;
+  background-color: var(--main-white);
+  line-height: 20px;
+  box-sizing: border-box;
+  padding: 1px 3px;
+}
+
+.room-info .room-set-time {
+  border: 1px solid black;
+  padding: 2px 5px;
+  box-sizing: border-box;
+}
+
+.room-title {
+  font-weight: bold;
+  font-size: 50px;
+  min-height: 100px;
+  box-sizing: border-box;
+  padding-right: 5px;
+  margin: 0;
+}
+
+.room-member .member-container {
+  text-align: center;
+}
+
+.member-container .member-num {
+  font-size: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.room-info .room-user-info {
+  float: right;
+  overflow: hidden;
+  width: 190px;
+}
+
+.room-user-info .user-img {
+  height: 50px;
+  width: 50px;
+  float: left;
+  overflow: hidden;
+}
+
+.room-user-info .user-name {
+  line-height: 40px;
+  height: 40px;
+  width: 40px;
+  margin-left:5px;
+}
+
+.room .room-time {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 110px;
+  height: 150px;
+  float: right;
+  overflow: hidden;
+}
+
+.room-time .remain-time {
+  line-height: 50px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.room-time .remain-time-num-m {
+  font-size: 25px;
+}
+
+.favorite {
+  float: left;
+  overflow: hidden;
+  margin-top: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.no-favorite{
+  opacity:0;
+}
+.title-detail {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.no-room{
+  text-align: center;
+  margin-top: 50px;
+}
+.no-room .btn-make-room{
+  background-color: var(--main-blue);
+  color: var(--main-white);
+  padding: 10px 20px;
+  font-size: 20px;
+  margin-top: 20px;
+  display: inline-block;
+}
+
+.select {
+  width: 100%;
+}
+
+@media only screen and (max-width:600px) {
+  .room-time .remain-time{
+    line-height: inherit;
+  }
+  .user-name{
+    font-size: 10px;
+  }
+}

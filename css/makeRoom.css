@@ -1,0 +1,33 @@
+@import url("color.css");
+
+.select-time{
+  text-align-last: center;
+}
+.btn-recommend{
+  background-color: var(--main-color);
+  color: white;
+  margin-left: 10px;
+}
+.open-myroom{
+  text-align: center;
+  width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  padding: 20px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+
+@media only screen and (max-width:600px) {
+  .btn-recommend{
+    color: #D9BD30;
+    background: none;
+    font-weight: bold;
+    padding: 10px;
+    font-size: 16px;
+    margin-left: 0;
+}
+
+}

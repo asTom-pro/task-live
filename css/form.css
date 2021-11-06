@@ -1,0 +1,72 @@
+.form{
+  width: 450px;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  padding: 30px;
+  overflow: hidden;
+}
+.form .form-title{
+  margin-top: 20px;
+  text-align: center;
+}
+.form .input{
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-top: 3px;
+  margin-bottom: 20px;
+  border: 1px solid rgb(77, 77, 77);
+  transition: .05s;
+}
+.form .input:focus{
+  box-shadow:0 0 0.1rem 0.2rem  rgb(155, 155, 155,0.7);
+}
+.form .select-container{
+  width: 100%;
+}
+.form .select{
+  margin-top: 3px;
+  border: 1px solid rgb(77, 77, 77);
+  transition: .05s;
+  background-color: white;
+}
+.form .select:focus{
+  box-shadow:0 0 0.1rem 0.2rem  rgb(155, 155, 155,0.7);
+}
+.form .required{
+  color: rgb(255, 61, 61);
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 12px;
+}
+.form .btn-submit {
+  float: right;
+  overflow: hidden;
+  clear: both;
+  margin-top: 50px;
+}
+.form .room-name-title{
+  text-align: right;
+}
+.form .room-tag-title{
+  text-align: right;
+}
+
+
+
+@media only screen and (max-width:600px) {
+
+  .form {
+    width: 100%;
+  }
+  .form .form-title{
+    margin-top: 0;
+    font-size: 1.5rem;
+  }
+  .input-text-num{
+    font-size: 12px;
+  }
+
+}
