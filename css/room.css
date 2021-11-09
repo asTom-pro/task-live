@@ -51,20 +51,22 @@
 }
 .limit-time .remain-time-num{
   font-size: 120px;
+  display: block;
+  margin-left: 300px;
 }
 .room-info .info-left{
-  width: 900px;
+  width: 780px;
   float: left;
   overflow: hidden;
   box-sizing: border-box;
   padding-right: 0;
-  padding-left: 100px;
 }
 .room-info .room-time{
-  width: 200px;
+  width: 300px;
   float: right;
   overflow: visible;
   margin-top: 20px;
+  transform: translateY(-20px);
 }
 .room-time .clock{
   margin-left: auto;
@@ -105,7 +107,6 @@
   min-height: 50px;
   width: 500px;
   margin-left: auto;
-  margin-right: auto;
 }
 .info-left-bottom .now-joined-num{
   float: left;
@@ -130,11 +131,13 @@
 .clock-bottom .btn{
   background-color: var(--main-blue);
   color: var(--main-white);
+  margin-left: auto;
+  margin-right: auto;
 }
 .clock-bottom .invite-container{
   position: absolute;
     top: -100px;
-    left: -100%;
+    left: -50%;
     width: 250px;
     height: 150px;
     box-sizing: border-box;
@@ -170,8 +173,10 @@
   overflow: hidden;
 }
 .comment-container{
+  display: flex;
+  align-items: center;
   min-height: 44px;
-  border-radius: 15px;
+  border-radius: 30px;
   box-sizing: border-box;
   padding:10px 20px;
   max-width: 900px;
@@ -263,6 +268,7 @@
     box-sizing: border-box;
     padding: 10px;
     position: relative;
+    margin-top: 20px;
   }
   .room-title-container{
     line-height: normal;
@@ -286,6 +292,7 @@
     font-size: 1em;
   }
   .limit-time .remain-time-num{
+    margin-left: 0;
     font-size: 3rem;
     color: var(--main-blue);
   }
@@ -320,7 +327,7 @@
   }
   .icon-invite{
     color: var(--text-muted);
-    font-size: 1.5rem;
+    font-size: 1rem;
     position: absolute;
     top: 1rem;
     left: 1rem;
@@ -366,7 +373,7 @@
   }
   .modal-share-items {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     padding-left: 0;
   }
   .modal-share-item {
@@ -385,9 +392,13 @@
     vertical-align: middle;
     margin-left: auto;
     margin-right: auto;
+    line-height: 21px;
+  }
+  .btn-modal-close{
+    background-color: rgb(62 62 62);
   }
   .modal-share-item-lead{
-    font-size: .8rem;
+    font-size: .5rem;
     display: block;
     text-align: center;
     margin-top: 5px;

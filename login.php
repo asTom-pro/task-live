@@ -127,7 +127,7 @@ $title = 'ログイン';
         </label>
         <label for="">
           <input type="checkbox" name="login-save">
-          ログイン状態を保持する
+          <span class="js-check-checkbox">ログイン状態を保持する</span>
         </label>
         <input type="submit" value="ログイン" class="btn btn-submit">
       </form>

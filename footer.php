@@ -9,13 +9,12 @@
       <span class="modal-share-item-lead text-muted">URLコピー</span>
     </li>
     <li class="modal-share-item">
-      <div class="modal-share-item-btn js-modal-close">
+      <div class="modal-share-item-btn btn-modal-close js-modal-close">
       <i class="fas fa-times btn-close"></i>
     </div>
       <span class="modal-share-item-lead text-muted">閉じる</span>
     </li>
   </ul>
-  
 </div>
 <footer class="footer">
   <ul class="footer-nav">

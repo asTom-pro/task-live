@@ -38,7 +38,13 @@ $(function () {
 
 
   $('.js-room-tag-input-count').on('keyup',function(){
-    var char_num = $(this).val().length;
+    var $this = $(this);
+    var str = $this.val();
+    if($this.prop("name") === "tag" ){
+      str = str.replace(/\s+/g, "");
+    }
+    var char_num = str.length;
+
     console.log(char_num);
     $('.js-show-room-tag-count').text(char_num);
     if( char_num > 20){

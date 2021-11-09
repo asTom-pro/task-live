@@ -64,4 +64,23 @@
     margin-left: 10px;
     margin-right: 10px;
   }
+  .sub-bar-profile .user-img{
+    width: 100px;
+    height: 100px;
+  }
+  .sub-bar{
+    display: block;
+  }
+  .user-description .description{
+    text-align: center;
+  }
+  .sub-bar-profile .btn-profile{
+    width: 100%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+  }
+  .sub-bar-links .sub-bar-link a{
+    display: block;
+    width: 100%;
+  }
 }

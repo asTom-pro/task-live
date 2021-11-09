@@ -299,27 +299,29 @@ $title = '部屋';
 
 
         <?php
+        // 部屋が終わっている。かつ、ログインしている。
         if ($room_end_flg && isLogin()) {
+          // メモを既に保存している
           if ($isSentTask) {
             echo '
             <div class="end-room ended-room">
             </div>
-            <div class="end-room ended-room end-room-description ended-room-description">    
+            <div class="end-room-description ended-room-description">    
             <p class="description">完了タスクを保存しました。<br>
             <a href="userpage.php" class="info-txt text-decoration-underline">マイページ</a>で確認できます。
             </p>
-
-
             <div class="btn-container">
             <a href="index.php" class="btn join-similar-room">部屋を探す</a>
             <a href="makeRoom.php" class="btn make-my-room">部屋を作る</a>
             </div>';
           } else {
+            // メモをまだ保存していない
             if ($isJoinMember) {
+              // その部屋の参加した人
               echo '
               <div class="end-room ended-room">
               </div>
-              <div class="end-room ended-room end-room-description ended-room-description">      
+              <div class="end-room-description ended-room-description">      
               <p class="description">お疲れ様でした<br>
               完了タスクをメモしますか？<br>
               <span class="info-txt">メモは<a href="userpage.php" class="text-decoration-underline">マイページ</a>に保存されます。</span>
@@ -330,11 +332,11 @@ $title = '部屋';
             </form>
             ';
             } else {
-
+              // 部屋に参加してない人
               echo '
               <div class="end-room ended-room">
               </div>
-              <div class="end-room ended-room end-room-description ended-room-description">      
+              <div class="end-room-description ended-room-description">      
               <p class="description">この部屋は終了しました </p>
               <div class="btn-container">
               <a href="index.php" class="btn join-similar-room">部屋を探す</a>
@@ -345,12 +347,12 @@ $title = '部屋';
           echo '
         </div>
         ';
-        } elseif ($room_end_flg) {
+        } elseif (!isLogin() && $room_end_flg) {
           // ログインしてない、かつ部屋が終わってる時
           echo '
           <div class="end-room ended-room">
           </div>
-          <div class="end-room ended-room end-room-description ended-room-description">
+          <div class="end-room-description ended-room-description">
           <p class="description">この部屋は終了しました </p>
           <div class="btn-container">
           <a href="index.php" class="btn join-similar-room">部屋を探す</a>
@@ -358,11 +360,12 @@ $title = '部屋';
           </div>';
         }
         ?>
+        <?php if(!$room_end_flg){ ?>
         <?php if (isLogin()) { ?>
-          <!-- ログインしてる、かつ時間終了時にJSで表示するタスク入力モーダル -->
-          <div class="end-room d-none">
+          <!-- 時間終了時にJSで表示するタスク入力モーダル -->
+          <div class="js-show-end-room end-room d-none">
           </div>
-          <div class="end-room end-room-description d-none">
+          <div class="js-show-end-room-description end-room-description d-none">
             <p class="description">
               お疲れ様でした<br>
               完了タスクをメモしますか？<br>
@@ -374,10 +377,10 @@ $title = '部屋';
             </p>
           </div>
         <?php } else { ?>
-          <!-- ログインしてない、かつ時間終了時にをJSで表示するタスク入力モーダル -->
-          <div class="end-room d-none">
+          <!-- 時間終了時にをJSで表示するタスク入力モーダル -->
+          <div class="js-show-end-room end-room d-none">
           </div>
-          <div class="end-room end-room-description end-room-no-login d-none">
+          <div class="js-show-end-room-description end-room-description end-room-no-login d-none">
             <p class="description">
               お疲れ様でした<br>
               完了タスクをメモしますか？<br>
@@ -388,6 +391,7 @@ $title = '部屋';
               <a href="login.php?redirect=<?php echo $from_path; ?>" class="btn-login link">ログイン</a>
             </div>
           </div>
+        <?php }; ?>
         <?php }; ?>
       </div>
     </div>

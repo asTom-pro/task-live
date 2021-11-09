@@ -29,14 +29,24 @@ $dbRoomsInfo = getRoomsInfo();
 $tag = '';
 $room_id_related_tag = array();
 if (!empty($_GET)) {
-  $tag = $_GET['tag'];
-  $tag_id = getTagId($tag);
-  if (empty($tag_id)) {
-    debug('不正なパラメータを取得したのでトップページに遷移します。');
-    header('Location:index.php');
+  // タグ検索
+  if(!empty($_GET['tag'])){
+    $tag = $_GET['tag'];
+    $tag_id = getTagId($tag);
+  
+    if (empty($tag_id)) {
+      debug('不正なパラメータを取得したのでトップページに遷移します。');
+      header('Location:index.php');
+    }
+    $room_id_related_tag[] = getRoomId($tag_id);
+    $dbRoomsInfo = getRoomsInfoRelatedTag($room_id_related_tag);  
   }
-  $room_id_related_tag[] = getRoomId($tag_id);
-  $dbRoomsInfo = getRoomsInfoRelatedTag($room_id_related_tag);
+  // 部屋名検索
+  if(!empty($_GET['search'])){
+    debug('部屋名検索します');
+    $s = $_GET['search'];
+    $dbRoomsInfo = getRoomsInfo('',$s);  
+  }
 }
 
 if (empty($dbRoomsInfo[0])) {
@@ -160,6 +170,9 @@ $title = '部屋一覧';
                       </div>
                       <!-- end マイルーム -->
           <?php } ?>
+          <?php if(!empty($s)){
+            echo '<p class="room-select-lead text-muted">検索：'.$s.'</p>';
+          } ?>
           <p class="room-select-lead">参加する部屋を選択</p>
           <?php if ($no_room_flg) { ?>
             <div class="no-room">
@@ -192,7 +205,7 @@ $title = '部屋一覧';
               $roomUser =  getUser($val['user_id']);
               $endRoomUserNum = getRoomUserNum($val['room_id']);
               ?>
-              <a href="room.php?r_id=<?php if (!empty($val['room_id'])) {echo sanitize($val['room_id']);}?> class="room-link">
+              <a href="room.php?r_id=<?php if (!empty($val['room_id'])) {echo sanitize($val['room_id']);}?>" class="room-link">
               <div class="room">
                 <div class="room-info">
                   <h2 class="room-title"><?php echo sanitize($val['room_name']);?></h2>

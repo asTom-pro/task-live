@@ -25,6 +25,52 @@ button{
 button:focus{
   outline: none;
 }
+
+input[type="checkbox"] {
+  display: none;
+}
+.input{
+  border: 1px solid rgb(77, 77, 77);
+  border-radius: 2px;
+}
+.js-check-checkbox {
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 30px;
+  position: relative;
+  width: auto;
+}
+.js-check-checkbox::before {
+  background: #fff;
+  border: 1px solid #231815;
+  content: '';
+  display: block;
+  height: 16px;
+  left: 5px;
+  margin-top: -10px;
+  position: absolute;
+  top: 50%;
+  width: 16px;
+}
+.js-check-checkbox::after {
+  border-right: 3px solid var(--main-blue);
+  border-bottom: 3px solid var(--main-blue);
+  content: '';
+  display: block;
+  height: 9px;
+  left: 10px;
+  margin-top: -9px;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  transform: rotate(45deg);
+  width: 5px;
+}
+input[type=checkbox]:checked + .js-check-checkbox::after {
+  opacity: 1;
+}
+
 .body{
   background-color: rgba(228, 228, 228,0.2);
 }
@@ -67,20 +113,88 @@ button:focus{
   display: block;
 }
 .header{
-  width: 1100px;
-  height: 100px;
+  width: 100%;
+  height: 70px;
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) ;
+  background-color: rgb(255, 255, 255);
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  transition: 0.5s;
+}
+.container-header{
   margin-left: auto;
   margin-right: auto;
-  overflow: hidden;
-  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) ;
+  width: 1100px;
+}
+.header .user-img{
+  height: 40px;
+  width: 40px;
+}
+.header .header-link-container{
+  display: none;
+}
+.header .header-link-container-pc.is-active{
+  display: block;
+}
+.header-link-container-pc{
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  max-width: 100%;
+  right: 50%;
+  transform: translateX(50%) translateY(-20px);
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+  box-sizing: border-box;
+  border: solid 1px #b1b1b1;
+  z-index: -1;
+}
+.header-link-container-pc::before{
+  position: absolute;
+  content: '';
+  top: -30px;
+  right: 50%;
+  transform: translateX(50%);
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-bottom: 10px solid #b1b1b1;
+}
+.header-link-container-pc::after{
+  position: absolute;
+  content: '';
+  top: -29px;
+  right: 50%;
+  transform: translateX(50%);
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-bottom: 10px solid white;
+}
+.header-link-container-pc .header-links{
+  padding-left: 0;
+}
+.header-link-container-pc .header-links .header-link{
+  transition: .1s;
+  box-sizing: border-box;
+  padding: 5px;
+  font-size: 14px;
+}
+.header-link-container-pc .header-links .header-link a{
+  display: block;
+  width: 100%;
+}
+.header-link-container-pc .header-links .header-link:hover{
+  background-color: #e9e9e9a1;
+}
+.header-link-container-ph{
+  display: none;
 }
 .header-logo {
   width: 100px;
 }
 .header-left{
   float: left;
-  height: 100px;
-  padding-left: 10px;
   box-sizing: border-box;
 }
 .header-left::after{
@@ -89,30 +203,64 @@ button:focus{
   clear: both;
 }
 .header-left .header-logo{
-  height: 50px;
+  height: 20px;
   width: 100%;
   margin-top: 25px;
 }
 .header-right{
   float: right;
-  overflow: hidden;
-  height: 100px;
 }
 .header-right .nav{
-  overflow: hidden;
   list-style: none;
-  margin-top: 25px;
+}
+.header-right::after{
+  content: '';
+  display: block;
+  clear: both;
 }
 .header-right .nav-list{
   float: left;
-  overflow: hidden;
   margin-left: 10px;
   margin-right: 10px;
-  line-height: 50px;
+  line-height: 40px;
+  cursor: pointer;
+  color: rgb(122 122 122);
+  z-index: 1;
+}
+.nav-list-menu{
+  position: relative;
+}
+.nav-list.nav-list-search{
+  display: flex;
+}
+.search-container{
+  display: none;
+}
+.search-container.is-active{
+  display: inline-block;
+  margin-right: 10px;
+}
+.search-input {
+  padding: 5px 10px;
+}
+.header .btn-search{
+  font-size: 25px;
+  line-height: 40px;
+  color: rgb(201 201 201);
+}
+.login-list-container {
+  display: none;
+}
+.search-container{
+  display: none;
+}
+.form-search-pc{
+  display: inline-block;
 }
 .main{
   overflow: hidden;
   min-height: calc(100vh - 100px);
+  margin-top: 100px;
 }
 .main-bar {
   width: 800px;
@@ -139,6 +287,10 @@ button:focus{
 .btn{
   border: none;
   border-radius: 5px;
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
 }
 .btn-signup{
   color: rgba(128, 128, 128,0.8);
@@ -171,9 +323,6 @@ button:focus{
   background-color: rgba(61, 61, 61,0.8);
   color: white;
   margin-top: 10px;
-  padding: 5px 10px;
-  font-size: 18px;
-  cursor: pointer;
 }
 .footer{
   min-height: 100px;
@@ -205,6 +354,8 @@ button:focus{
   border-radius: 50%;
   object-fit: cover;
   display: block;
+  height: 40px;
+  width: 40px;
 }
 .err{
   color: red;
@@ -309,6 +460,9 @@ button:focus{
 .is-in-count{
   color: inherit;
 }
+.modal-share{
+  display: none;
+}
 
 
 
@@ -316,8 +470,6 @@ button:focus{
   .info-txt{
     font-size: 12px;
     display: block;
-    margin-top: 10px;
-    margin-bottom: 10px;
   }
   #js-msg-container{
     width: calc(100% - 50px);
@@ -332,18 +484,19 @@ button:focus{
     width: 100%;
     height: 60px;
     overflow: visible;
-    background-color: rgba(255, 255, 255, 0.863);
-    
+    background-color: rgb(255, 255, 255);
+  }
+  .container-header{
+    width: 100%;
   }
   .header .header-left{
     height: auto;
+   padding-left: 10px;
   }
-
-
   .header .header-left .header-logo{
     margin-top: 20px;
     margin-bottom: 20px;
-    height: 20px;
+    height: 16px;
   }
   .header .header-right{
     height: auto;
@@ -362,12 +515,11 @@ button:focus{
     line-height: 40px;
   }
   .header .header-link-container{
-    display: none;
     position: absolute;
     background-color: white;
     width: 100vw;
     height: 100vh;
-    z-index: 1;
+    z-index: 10;
   }
   .header-link-container .header-links{
     padding-left: 0;
@@ -377,7 +529,35 @@ button:focus{
   .header-link-container .nav-list{
     margin-top: 2rem;
   }
-
+  .login-list-container {
+    display: none;
+    position: absolute;
+    background-color: white;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+  }
+  .login-list-container .header-links {
+    padding-left: 0;
+    text-align: center;
+    margin-top: 2rem;
+  }
+  .login-list-container .nav-list {
+    margin-top: 2rem;
+  }
+  .login-list-container .btn-signup{
+    color: initial;
+    background-color: initial;
+    box-sizing: border-box;
+    font-weight: initial;
+    padding-left: initial;
+    padding-right: initial;
+    border: initial;
+  }
+  .login-list-container.is-active {
+    margin-top: 70px;
+    display: block;
+  }
   .ph-btn-make-room i{
     line-height: 40px;
   }
@@ -394,19 +574,26 @@ button:focus{
   .header-right .nav-list:last-child{
     margin-right: 0;
   }
-  .header .btn-search{
-    line-height: 40px;
-    color: rgb(201 201 201);
+  .header-link-container-pc{
+    display: none;
   }
+  .header .header-link-container-pc.is-active{
+    display: none;
+  }
+  .header .header-link-container-ph.is-active{
+    display: block;
+  }  
+  
   .search-container{
     display: none;
     position: absolute;
+    left: 0;
     background-color: white;
     width: 100vw;
     height: 100vh;
-    z-index: 1;
+    z-index: 10;
     box-sizing: border-box;
-    padding: 1.5rem;
+    padding: 0 1.5rem;
   }
   .search-title{
     font-size: 1.2rem;
@@ -449,8 +636,11 @@ button:focus{
     margin-top: 20px;
     border-top: 1px solid rgb(155 155 155);
   }
+
+
   .main{
     width: 100%;
+    margin-top: 60px;
   }
   .container{
     width: 100%;
@@ -459,7 +649,6 @@ button:focus{
     width: 100%;
   }
   .room-container .room-select-lead{
-   padding-left: 20px;
    font-size: 14px;
  }
  .main .room{
@@ -516,7 +705,7 @@ button:focus{
    font-size: 30px;
  }
  .room-container .room-info .room-tag{
-   width: 100%;
+   width: 150px;
    margin-top: 1rem;
  }
  .room-container .room-info .room-member{
@@ -531,7 +720,7 @@ button:focus{
    display: none;
  }
  .footer{
-   margin-top: 0;
+   margin-top: 20px;
  }
  .footer-nav .footer-nav-list{
    font-size: 14px;
@@ -540,6 +729,6 @@ button:focus{
    display: none;
  }
 }
-@media only screen and (max-width:1025px) {
 
+@media only screen and (max-width:1025px) {
 }

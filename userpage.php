@@ -86,14 +86,15 @@ $title = 'ユーザーページ';
   <main class="main">
     <div class="container">
       <div class="main-bar">
-        <?php if ($isMyPageFlg && !empty($dbUserEndTaskInfo[0])) : ?>
-          <div class="task-container">
-            <table class="task-table">
-              <caption class="table-title js-open-table">メモ
-                <i class="fas fa-chevron-down is-active icon-arrow js-closing-table"></i>
-                <i class="fas fa-chevron-up icon-arrow  js-opening-table"></i>
-              </caption>
-              <tbody>
+      <?php if ($isMyPageFlg) : ?>
+        <div class="task-container">
+          <table class="task-table">
+            <caption class="table-title js-open-table">メモ
+              <i class="fas fa-chevron-down is-active icon-arrow js-closing-table"></i>
+              <i class="fas fa-chevron-up icon-arrow  js-opening-table"></i>
+            </caption>
+            <tbody>
+                <?php if ($isMyPageFlg && !empty($dbUserEndTaskInfo[0])) : ?>
                 <?php
                 foreach ($dbUserEndTaskInfo as $key => $val) {
                   $endTask = $val['ended_task'];
@@ -106,17 +107,22 @@ $title = 'ユーザーページ';
                 ';
                 }
                 ?>
+                <?php else: ?>
+                  <tr>
+                    <td>現在メモはありません。</td>
+                  </tr>
+              <?php endif; ?>
               </tbody>
             </table>
           </div>
-        <?php endif; ?>
+          <?php endif; ?>
         <p class="total-study-time">総学習時間<br>
         <span class="total-time"><?php
                                                                   foreach ($dbUserCreatedRoomInfo as $key => $val) {
                                                                     $total_room_time += (round($val['room_time_limit'] / 3600, 2));
                                                                     debug(print_r($total_room_time, true));
                                                                   }
-                                                                  echo sanitize($total_room_time); ?></span>時間
+                                                                  echo sanitize($total_room_time); ?></span><span class="total-time-unit">時間</span>
         </p>
         <div class="created-room-container room-container">
           <p class="total-room">今まで作成した部屋<span class="total-room-num"><?php if (!empty($dbUserCreatedRoomNum)) {

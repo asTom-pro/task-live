@@ -93,10 +93,39 @@
     width: 100%;
     box-sizing: border-box;
   }
+  .follow-member:last-child{
+    border-radius: 0 0 3px 3px;
+  }
+  .follow-switch .btn:first-child{
+    border-radius: 3px 0 0 0;
+  }
+  .follow-switch .btn:last-child{
+    border-radius: 0 3px 0 0 ;
+  }
   .follow-member .member-info{
     width: 100%;
   }
   .user-description{
     word-break:break-all;
+    font-size: 12px;
+  }
+  .btn-follow{
+    font-size: 16px;
+  }
+  .user-img{
+    width: 50px;
+    height: 50px;
+  }
+  .info-right{
+    width: calc(100% - 60px);
+  }
+  .info-right .user-name{
+    font-size: 16px;
+    margin-top: 0;
+    overflow-wrap: break-word;
+  }
+  .follow-member .btn-follow{
+    font-size: 14px;
+    padding: 10px;
   }
 }

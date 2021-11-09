@@ -164,4 +164,12 @@
   .user-name{
     font-size: 10px;
   }
+  .room-tag .tag{
+    font-size: 10px;
+    padding: 2px 4px;
+    transition: .2s;
+  }
+  .room-tag .tag:hover{
+    background-color: rgb(255, 255, 255);
+  }
 }

@@ -30,8 +30,10 @@ $(function () {
     timeDMS = makeTime(limit_time_sec);
     $remain_time_num.text(timeDMS);
     if (limit_time_sec <= 0) {
-      if (!$('.end-room').hasClass('ended-room')) {
-        $('.end-room').removeClass('d-none');
+      if (!$('.js-show-end-room-description').hasClass('ended-room')) {
+        $('.js-show-end-room-description').removeClass('d-none');
+        $('.js-show-end-room').removeClass('d-none');
+
       }
     }
     limit_time_sec -= 1;

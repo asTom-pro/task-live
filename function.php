@@ -29,6 +29,8 @@ $debug_flg = true;
 
 $debug_flg = false;
 
+$debug_flg = true;
+
 
 if ($debug_flg) {
   function debug($str)
@@ -262,7 +264,7 @@ function getRoomUserNum($id)
     debug('データーベースエラー：' . $e->getMessage());
   }
 }
-function getRoomsInfo($u_id = '')
+function getRoomsInfo($u_id = '',$s='')
 {
   try {
     debug('全部屋情報を取得・トライ');
@@ -272,6 +274,10 @@ function getRoomsInfo($u_id = '')
     if (!empty($u_id)) {
       $sql = 'SELECT * FROM room WHERE user_id = :u_id ORDER BY create_date DESC';
       $data = array(':u_id' => $u_id);
+    }
+    if(!empty($s)){
+      $sql = 'SELECT * FROM room  WHERE room_name LIKE :s ORDER BY create_date DESC';
+      $data = array(':s' => '%'.$s.'%');
     }
     $stmt = queryPost($dbh, $sql, $data);
     if ($stmt) {
@@ -642,7 +648,7 @@ function updateImg($file, $key)
     $type = @exif_imagetype($link);
     $type = array_search(exif_imagetype($link), $mineType);
     if (!empty($type)) {
-      $to_link = 'pic/' . sha1_file($link) . image_type_to_extension($type);
+      $to_link = '../img.tasker/' . sha1_file($link) . image_type_to_extension($type);
       if (move_uploaded_file($link, $to_link)) {
         debug('ファイルをディレクトリに移動させました。');
         chmod($to_link, 0644);
