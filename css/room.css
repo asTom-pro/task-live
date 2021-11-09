@@ -214,6 +214,7 @@
 .comment-container .comment{
   margin: 0;
   position: relative;
+  font-size: 12px;
 }
 .comment-container .user-ballon {
   position: absolute;
