@@ -92,7 +92,7 @@ if(!empty($_GET)){
           <?php } ?>
         <?php } else { ?>
           <li class="nav-list">
-            <span class="js-toggle-login-link">
+            <span class="js-toggle-login-link toggle-login-link-ph">
               <img src="img/user-sample.svg" alt="ユーザー画像" class="user-img">
             </span>
           </li>

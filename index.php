@@ -161,7 +161,7 @@ $title = '部屋一覧';
                     animation:rotation-s <?php echo sanitize($limit_time_sec); ?>s linear 1 forwards;"></div>
                               </div>
                               <div class="remain-time">
-                                <span class="remain-time-num-m"><?php if (!empty($limit_time_min)) { echo sanitize($limit_time_min); } else {echo '0';} ?></span>
+                                <span class="remain-time-num-m"><?php if (!empty($limit_time_min)) { echo sanitize($limit_time_min); } else {echo '0';} ?></span>/
                                 <?php if (!empty($roomMaxTime)) { echo sanitize($roomMaxTime); }?>分
                               </div>
                             </div>

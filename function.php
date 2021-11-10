@@ -139,10 +139,14 @@ function dbConnect()
 {
   debug('データベース接続します。');
   try {
+    $dsn = 'mysql:host=localhost;dbname=just_do_it;charset=utf8';
+    $user = 'root';
+    $password = 'root';
+
     // 環境変数を後で設定
-    $dsn = 'mysql:host='.getenv('HOST').';dbname='.getenv('DB_NAME').';charset=utf8';
-    $user = getenv('DB_USER');
-    $password = getenv('DB_PASSWORD');
+    // $dsn = 'mysql:host='.getenv('HOST').';dbname='.getenv('DB_NAME').';charset=utf8';
+    // $user = getenv('DB_USER');
+    // $password = getenv('DB_PASSWORD');
     $options = array(
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
       PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

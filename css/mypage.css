@@ -46,6 +46,7 @@
 .task-table .table-title{
   text-align: left;
   font-size: 20px;
+  cursor: pointer;
 }
 .table-title .icon-arrow{
   font-size: 16px;
