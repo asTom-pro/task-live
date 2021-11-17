@@ -21,6 +21,7 @@ if(!empty($_GET)){
     <div class="header-left">
       <a href="index.php">
         <img src="img/logo.svg" alt="" class="header-logo">
+        <!-- <img src="img/logo.svg" alt="" class="header-logo"> -->
       </a>
     </div>
     <div class="header-right">

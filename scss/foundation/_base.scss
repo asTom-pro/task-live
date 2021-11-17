@@ -1,0 +1,34 @@
+
+// ==========================================================================
+// base
+// ==========================================================================
+body{
+  font-family: $font-family_default;
+}
+ul{
+  list-style: none;
+  margin-bottom: 0;
+}
+a{
+  text-decoration: none;
+  color: inherit;
+}
+input{
+  outline: none;
+  border-radius: 2px;
+}
+textarea{
+  outline: none;
+  border-radius: 2px;
+}
+button{
+  cursor: pointer;
+}
+button:focus{
+  outline: none;
+}
+
+// オリジナルUIため、デフォルトUIは非表示
+input[type="checkbox"] {
+  display: none;
+}

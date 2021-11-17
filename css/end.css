@@ -99,6 +99,7 @@
 .main-bar .btn-container {
   margin-top: 40px;
   display: flex;
+  justify-content:center;
 }
 .main-bar .btn-container .btn{
   font-size: 12px;

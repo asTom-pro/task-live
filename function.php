@@ -648,7 +648,7 @@ function updateImg($file, $key)
     $type = @exif_imagetype($link);
     $type = array_search(exif_imagetype($link), $mineType);
     if (!empty($type)) {
-      $to_link = '../img.tasker/' . sha1_file($link) . image_type_to_extension($type);
+      $to_link = '../img.task-live.com/' . sha1_file($link) . image_type_to_extension($type);
       if (move_uploaded_file($link, $to_link)) {
         debug('ファイルをディレクトリに移動させました。');
         chmod($to_link, 0644);

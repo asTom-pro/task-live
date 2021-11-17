@@ -1,0 +1,22 @@
+{
+  "name": "tasker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:asTom-pro/tasker.git",
+  "license": "MIT",
+  "scripts": {
+    "build-css": "node-sass --include-path scss scss/style.scss css/style.css",
+    "watch-css": "nodemon -e scss -x \"npm run build-css\""
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-changed": "^4.0.3",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-imagemin": "7.1.0",
+    "nodemon": "^2.0.15",
+    "sass": "^1.43.4"
+  },
+  "dependencies": {
+    "jquery": "^3.6.0"
+  }
+}

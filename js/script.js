@@ -7,12 +7,14 @@ $(function () {
 
   $window.on('scroll', function () {
     window_position = $(this).scrollTop();
-    if (window_position <= start_position) {
-      $header.css('top', '0');
-    } else {
-      $header.css('top', '-100px');
+    if(window_position > 100){
+      if (window_position <= start_position) {
+        $header.css('top', '0');
+      } else {
+        $header.css('top', '-100px');
+      }
+      start_position = window_position;
     }
-    start_position = window_position;
   });
 
   function urlCopy() {
