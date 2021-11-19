@@ -104,6 +104,14 @@ $(function () {
   })
 
 })
+
+$('.js-toggle-accordion').on('click', function() {
+  $('.solution-not-receive-mail').slideToggle();
+  $('.js-opening-accordion').toggleClass('is-active');
+  $('.js-closing-accordion').toggleClass('is-active');
+
+})
+
 function login_modal($title) {
   $('#modal').load('./loginModal.php?from_path=' + location.pathname + location.search, function () {
     $('#modal .modal-title').text($title);

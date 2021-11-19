@@ -21,15 +21,15 @@ define('MSG05', 'このメールアドレスはすでに登録されています
 define('MSG06', 'パスワードとパスワード（再入力）が一致していません。');
 define('MSG07', 'メールアドレスかパスワードが間違っています。');
 define('MSG08', '1MB以下にしてください。');
-define('MSG09', 'データベースエラーが起こり保存できませんでした。時間を開けて再度行なってください。');
+define('ERR_QUERUY', 'データベースエラーが起こり保存できませんでした。時間を開けて再度行なってください。');
+define('ERR_MAILCONFIRM', 'データーベースエラーが起こりメールを送信できませんでした。時間をあけて再度行ってください。');
+define('ERR_MAIL_NOT_MATCH', 'データーベースエラーが起こりメールを送信できませんでした。時間をあけて再度行ってください。');
 
 
 
-$debug_flg = true;
 
 $debug_flg = false;
 
-$debug_flg = true;
 
 
 if ($debug_flg) {
@@ -139,7 +139,6 @@ function dbConnect()
 {
   debug('データベース接続します。');
   try {
-    // 環境変数を後で設定
     $dsn = 'mysql:host='.getenv('HOST').';dbname='.getenv('DB_NAME').';charset=utf8';
     $user = getenv('DB_USER');
     $password = getenv('DB_PASSWORD');
@@ -657,7 +656,15 @@ function updateImg($file, $key)
     }
   } else {
     global $err_msg;
-    $err_msg[$key] = MSG09;
+    $err_msg[$key] = ERR_QUERUY;
+  }
+}
+
+function showImg($path) {
+  if(!empty($path)){
+    return 'img/sample.img.png';
+  }else{
+    return $path;
   }
 }
 
@@ -680,4 +687,17 @@ function setLogs($uri, $ipaddress)
     $rst = queryPost($dbh, $sql, $data);
   }
   return $rst;
+}
+
+function sendMail($from, $to, $subject, $comment){
+  if(!empty($to) && !empty($subject) && !empty($comment)){
+    mb_language( 'Japanese' );
+    mb_internal_encoding( 'UTF-8' );
+    $result = mb_send_mail($to, $subject, $comment, "From: ".$from);
+    if ($result) {
+      debug('メールを送信しました。');
+    } else {
+      debug('メールの送信に失敗しました。');
+    }
+  }
 }

@@ -33,6 +33,12 @@ input[type="checkbox"] {
   border: 1px solid rgb(77, 77, 77);
   border-radius: 2px;
 }
+.mb-0 {
+  margin-bottom: 0;
+}
+.no-select{
+  user-select:none;
+}
 .js-check-checkbox {
   box-sizing: border-box;
   cursor: pointer;
@@ -277,6 +283,23 @@ input[type=checkbox]:checked + .js-check-checkbox::after {
   padding-left: 10px;
   padding-right: 10px;
 }
+.main-bar.main-bar-only{
+  margin-left: auto;
+  margin-right: auto;
+  float: unset;
+  box-sizing: border-box;
+  padding: 25px;
+}
+.main-bar-only .title{
+text-align: center;
+font-size: 20px;
+}
+.info-area{
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 .sub-bar {
   width: 280px;
@@ -471,7 +494,39 @@ input[type=checkbox]:checked + .js-check-checkbox::after {
 .modal-share{
   display: none;
 }
-
+.main-img{
+  width: 100px;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  fill:rgba(0, 0, 0, 0.12);
+}
+.solution-not-receive-mail{
+  display: none;
+}
+.info-no-reply{
+  margin: 50px auto;
+}
+.js-toggle-accordion{
+  cursor: pointer;
+}
+.js-dropdown-info-no-reply .js-icon-arrow{
+  display: none;
+}
+.js-icon-arrow.is-active{
+  display: inline-block;
+}
+.solution-title{
+  font-size: 18px;
+}
+.solution-answer{
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.solution-menu{
+  padding-left: 0;
+}
 
 
 @media only screen and (max-width:600px) {

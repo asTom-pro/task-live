@@ -29,32 +29,67 @@ if (!empty($_POST)) {
     validLenMin($pass, 'pass', 6);
   }
   if (empty($err_msg)) {
-    debug('ユーザー登録・トライします');
-    try {
+    debug('ユーザー登録/認証メール送信します');
+    try{
+      debug('ユーザー仮登録・トライ');
+
+      // 認証トークン生成
+      $auth_key= uniqid('',true);
+
 
       $dbh = dbConnect();
-      $sql = 'INSERT INTO user(email,`password`) VALUES(:email,:pass)';
-      $data = array(':email' => $email, ':pass' => password_hash($pass, PASSWORD_DEFAULT));
-      $stmt =  queryPost($dbh, $sql, $data);
-      if ($stmt) {
-        debug('ユーザー登録・成功');
-        $ses_time = 60 * 60 * 24;
-        $_SESSION['login_limit'] = time() + $ses_time;
-        $_SESSION['user_id'] = $dbh->lastInsertid();
-        if (!empty($redirect_path)) {
-          debug('指定されたパスに遷移します');
-          header('Location:' . $redirect_path);
-          exit();
-        } else {
-          debug('部屋一覧ページに遷移します');
-          header('Location:index.php');
-          exit();
-        }
-      } else {
-        debug('ユーザー登録・失敗');
+      $sql = 'INSERT INTO verify_email(email, password, auth_token) VALUES(:email, :pass, :token)';
+      $data = array(':email' => $email, ':pass' => password_hash($pass, PASSWORD_DEFAULT), ':token' => $auth_key);
+      $rst = queryPost($dbh, $sql, $data);
+      if($rst){
+        debug('クエリ成功。');
+        debug('認証メール送信します');
+
+        $from ='verify@task-live.com';
+        $to = $email;
+        $subject = 'TASKLIVE本登録のご案内';
+        $comment = <<<EOT
+ご利用ありがとうございます。
+本登録のご案内です。
+
+以下のリンクをクリックして本登録のお手続きをお願いいたします。
+
+https://task-live.com/identity-email-activations.php?token={$auth_key}
+
+※恐れ入りますが24時間以内に本登録をお願いいたします。
+24時間を超えると上記URLをクリックをしても本登録をすることができませんので、ご了承ください。
+
+なお、何かご不明な点や、お困りのことがございましたら、以下問い合わせ先よりお気軽にご連絡ください。
+
+このメールはご入力いただいたメールアドレス宛に自動で送信されています。
+送信専用メールアドレスから送っておりますので、
+直接ご返信いただいてもお返事ができません。あらかじめご了承ください。
+
+このメールは送信先のメールアドレス宛てに自動で送信されています。
+送信専用メールアドレスから送っております。
+直接ご返信いただいてもお返事することができませんので、ご了承ください。
+
+万が一、このメールにお心当たりの無い場合は、
+どなたかがメールアドレスを間違って入力してしまった可能性があります。
+恐れ入りますが、以下の問合せ先までお知らせをお願いいたします。
+
+------------------------------
+問い合わせ窓口
+Email： contact@task-live.com
+------------------------------
+EOT;
+      sendMail($from, $to, $subject, $comment);
+      $_SESSION['msg_success'] = '本登録確認メールを送信しました';
+
+      header("Location:info-confirmation.php"); //登録確認ページへ
+
+      }else{
+      debug('クエリに失敗しました。');
+      $err_msg['common'] = ERR_QUERUY;
       }
-    } catch (Exception $e) {
-      debug('データベースエラー：' . $e->getMessage());
+    }catch(Exception $e){
+      error_log('エラー発生:' . $e->getMessage());
+      $err_msg['common'] = ERR_MAILCONFIRM;
     }
   }
 }
@@ -62,7 +97,7 @@ if (!empty($_POST)) {
 
 
 
-$title = '部屋一覧';
+$title = 'ユーザー登録';
 ?>
 
 
