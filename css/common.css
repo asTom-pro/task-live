@@ -210,7 +210,6 @@ input[type=checkbox]:checked + .js-check-checkbox::after {
 }
 .header-left .header-logo{
   height: 30px;
-  width: 100%;
   margin-top: 22.5px;
 }
 .header-right{
@@ -554,7 +553,7 @@ font-size: 20px;
   }
   .header .header-left{
     height: auto;
-   padding-left: 10px;
+    padding-left: 10px;
   }
   .header .header-left .header-logo{
     margin-top: 20px;
