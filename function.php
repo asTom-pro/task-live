@@ -29,6 +29,7 @@ define('ERR_MAIL_NOT_MATCH', 'データーベースエラーが起こりメー�
 
 
 $debug_flg = false;
+$debug_flg = true;
 
 
 
@@ -98,7 +99,9 @@ function validEmailDup($email, $key)
     $sql = 'SELECT * FROM user WHERE email = :email';
     $data = array(':email' => $email);
     $stmt = queryPost($dbh, $sql, $data);
-    if (!$stmt) {
+    $rst = $stmt->fetch(PDO::FETCH_ASSOC);
+    debug($rst);
+    if ($rst) {
       global $err_msg;
       $err_msg[$key] = MSG05;
       return false;
