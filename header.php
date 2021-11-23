@@ -2,7 +2,7 @@
 require_once('function.php');
 
 $userInfo = (!empty($_SESSION['user_id'])) ? getUser($_SESSION['user_id']) : 1;
-$userImg = (!empty($userInfo['profile_img'])) ? $userInfo['profile_img'] : '';
+$userImg = (!empty($userInfo['profile_img'])) ? $userInfo['profile_img'] : 'img/user-sample.svg';
 
 if(!empty($_GET)){
   if(!empty($_GET['search'])){
