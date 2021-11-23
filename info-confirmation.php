@@ -7,11 +7,6 @@ if (!empty($_GET)) {
   debug('$redirect_path' . $redirect_path);
 }
 
-
-
-
-
-
 $title = '認証メールを送信しました。メールを確認してください。';
 ?>
 
@@ -57,7 +52,6 @@ $title = '認証メールを送信しました。メールを確認してくだ�
                   <h3 class="solution-title">その他の場合</h3>
                   <p class="solution-answer">お手数ですが、<span>contact@task-live.com</span>からお問い合わせをお願いいたします。</p>
                 </li>
-
               </ul>
             </div>
             </div>

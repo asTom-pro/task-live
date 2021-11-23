@@ -32,7 +32,6 @@ if (!empty($_POST)) {
     debug('ユーザー登録/認証メール送信します');
     try{
       debug('ユーザー仮登録・トライ');
-
       // 認証トークン生成
       $auth_key= uniqid('',true);
 
@@ -61,6 +60,9 @@ https://task-live.com/identity-email-activations.php?token={$auth_key}
 
 なお、何かご不明な点や、お困りのことがございましたら、以下問い合わせ先よりお気軽にご連絡ください。
 
+問い合わせ窓口
+Email： contact@task-live.com
+
 このメールはご入力いただいたメールアドレス宛に自動で送信されています。
 送信専用メールアドレスから送っておりますので、
 直接ご返信いただいてもお返事ができません。あらかじめご了承ください。
@@ -79,7 +81,7 @@ Email： contact@task-live.com
 ------------------------------
 EOT;
       sendMail($from, $to, $subject, $comment);
-      $_SESSION['msg_success'] = '本登録確認メールを送信しました';
+      $_SESSION['success_msg'] = '本登録確認メールを送信しました';
 
       header("Location:info-confirmation.php"); //登録確認ページへ
 

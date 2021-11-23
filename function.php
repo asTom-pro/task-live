@@ -96,7 +96,7 @@ function validEmailDup($email, $key)
 {
   try {
     $dbh = dbConnect();
-    $sql = 'SELECT * FROM user WHERE email = :email';
+    $sql = 'SELECT * FROM user WHERE email = :email AND delete_flg = 0';
     $data = array(':email' => $email);
     $stmt = queryPost($dbh, $sql, $data);
     $rst = $stmt->fetch(PDO::FETCH_ASSOC);
