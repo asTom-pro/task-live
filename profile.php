@@ -11,7 +11,7 @@ if (!empty($_POST)) {
   debug('POST送信がありました。');
   $user_name = $_POST['name'];
   $prof_text = $_POST['introduce'];
-  $file = (!empty($_FILES['prof-img']['name']) ? updateImg($_FILES['prof-img'], 'file') : $dbUserInfo['profile_img']);
+  $file = (!empty($_FILES['prof-img']['name']) ? uploadImg($_FILES['prof-img'], 'file') : $dbUserInfo['profile_img']);
 
   if (empty($err_msg)) {
     try {

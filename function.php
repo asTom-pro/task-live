@@ -677,53 +677,54 @@ function isGuest()
   }
 }
 
-function updateImg($file, $key)
+function uploadImg($file, $key)
 {
-  global $err_msg;
-  $file_err = $file['error'];
-  switch ($file_err) {
-    case UPLOAD_ERR_OK:
-      $is_file_err =  false;
-      break;
-    case UPLOAD_ERR_INI_SIZE:
-      $is_file_err = true;
-      $err_msg[$key] = MSG08;
-      break;
-    case UPLOAD_ERR_PARTIAL:
-      $is_file_err = true;
-      break;
-    case UPLOAD_ERR_NO_FILE:
-      $is_file_err = true;
-      break;
-    case UPLOAD_ERR_NO_TMP_DIR:
-      $is_file_err = true;
-      break;
-    case UPLOAD_ERR_CANT_WRITE:
-      $is_file_err = true;
-      break;
-    case UPLOAD_ERR_EXTENSION:
-      $is_file_err = true;
-      break;
-  };
-  if (!$is_file_err) {
-    if ($file['size'] > 1000000) {
-      $err_msg['file'] = MSG08;
-    }
-    $mineType = array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG);
-    $link = $file['tmp_name'];
-    $type = @exif_imagetype($link);
-    $type = array_search(exif_imagetype($link), $mineType);
-    if (!empty($type)) {
-      $to_link = '../img.task-live.com/' . sha1_file($link) . image_type_to_extension($type);
-      if (move_uploaded_file($link, $to_link)) {
-        debug('ファイルをディレクトリに移動させました。');
-        chmod($to_link, 0644);
-        return $to_link;
+  debug('画像をアップロード開始。');
+  if(isset($file['error']) && is_int($file['error'])){
+    ini_set('upload_max_filesize','1MB');
+    try{
+      switch ($file['error']) {
+        case UPLOAD_ERR_OK:
+          break;
+        case UPLOAD_ERR_INI_SIZE:
+          throw new RuntimeException('ファイルサイズは1MB以下にしてください。');
+          break;
+        case UPLOAD_ERR_PARTIAL:
+          throw new RuntimeException('アップロードされたファイルは一部のみしかアップロードされていませんので、お手数ですが時間をあけて再度行ってください。');
+          break;
+        case UPLOAD_ERR_NO_FILE:
+          throw new RuntimeException('ファイルはアップロードされませんでしたので、お手数ですが時間をあけて再度行ってください。');
+          break;
+        case UPLOAD_ERR_NO_TMP_DIR:
+          throw new RuntimeException('テンポラリフォルダがありませんので、お手数ですが時間をあけて再度行ってください。');
+          break;
+        case UPLOAD_ERR_CANT_WRITE:
+          throw new RuntimeException('ディスクへの書き込みに失敗しましたので、お手数ですが時間をあけて再度行ってください。');
+          break;
+        case UPLOAD_ERR_EXTENSION:
+          throw new RuntimeException('ファイルの拡張子は、GIF、JPEG、PNGのみアップロード可能です。');
+          break;
+        default :
+          throw new RuntimeException('その他のエラーが発生しました。');
+          break;
+      };    
+      $mineType = array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG);
+      $link = $file['tmp_name'];
+      $type = @exif_imagetype($link);
+      $type = array_search(exif_imagetype($link), $mineType);
+      if (!empty($type)) {
+        $to_link = '../img.task-live.com/' . sha1_file($link) . image_type_to_extension($type);
+        if (move_uploaded_file($link, $to_link)) {
+          debug('ファイルをディレクトリに移動させました。');
+          chmod($to_link, 0644);
+          return $to_link;
+        }
       }
+    }catch(RuntimeException $e){
+      debug($e->getMessage());
+      global $err_msg;
+      $err_msg[$key] = $e->getMessage();
     }
-  } else {
-    global $err_msg;
-    $err_msg[$key] = ERR_QUERUY;
   }
 }
 
