@@ -266,33 +266,97 @@ function getRoomUserNum($id)
     debug('データーベースエラー：' . $e->getMessage());
   }
 }
-function getRoomsInfo($u_id = '',$s='')
+function getRoomsInfo($currentMinNum = 1, $sort = 'DESC', $search = '', $span = 20)
 {
   try {
     debug('全部屋情報を取得・トライ');
     $dbh = dbConnect();
-    $sql = 'SELECT * FROM room ORDER BY create_date DESC';
+    $sql = 'SELECT * FROM room ';
     $data = array();
-    if (!empty($u_id)) {
-      $sql = 'SELECT * FROM room WHERE user_id = :u_id ORDER BY create_date DESC';
-      $data = array(':u_id' => $u_id);
+    if (!empty($search)) {
+      $sql .= 'WHERE room_name LIKE :search ';
+      $data = array(':search' => '%' . $search . '%');
     }
-    if(!empty($s)){
-      $sql = 'SELECT * FROM room  WHERE room_name LIKE :s ORDER BY create_date DESC';
-      $data = array(':s' => '%'.$s.'%');
+    if (!empty($sort)) {
+      switch ($sort) {
+        case 'ASOC':
+          $sql .= 'ORDER BY create_date ASOC';
+          break;
+        case 'DESC':
+          $sql .= 'ORDER BY create_date DESC';
+          break;
+        default:
+          $sql .= 'ORDER BY create_date DESC';
+      }
     }
+    debug('SQL：' . $sql);
+    // クエリ実行
     $stmt = queryPost($dbh, $sql, $data);
+    // レコード数を取得
+    $rst['total'] = $stmt->rowCount();
+
+    $rst['total_page'] = ceil($rst['total'] / $span);
+    if (empty($rst)) {
+      return false;
+    }
+
+    $sql = 'SELECT * FROM room ';
+    if (!empty($search)) {
+      $sql .= 'WHERE room_name LIKE :search ';
+    }
+    if (!empty($sort)) {
+      switch ($sort) {
+        case 'ASC':
+          $sql .= ' ORDER BY create_date ASC';
+          break;
+        case 'DESC':
+          $sql .= ' ORDER BY create_date DESC';
+          break;
+        default:
+          $sql .= ' ORDER BY create_date DESC';
+      }
+    }
+    if (!empty($span)) {
+      $sql .= ' LIMIT ' . $span . ' OFFSET ' . ($currentMinNum - 1);
+    }
+    $data = array(':span' => $span, ':search' => '%' . $search . '%');
+    $stmt = queryPost($dbh, $sql, $data);
+    debug('ここまでは来てる');
+    debug($stmt);
+    debug('SQLこれ' . print_r($sql, true));
     if ($stmt) {
-      $rst = $stmt->fetchAll();
+      $rst['data'] = $stmt->fetchAll();
       debug('全部屋情報：' . print_r($rst, true));
       return $rst;
     } elseif ($stmt == 0) {
       debug('取得した部屋数は0です');
+      return false;
     }
   } catch (Exception $e) {
     debug('データベースエラー：' . $e->getMessage());
   }
 }
+
+function getRoomsInfoOneUser($u_id = '')
+{
+  try {
+    debug('全部屋情報を取得・トライ');
+    $dbh = dbConnect();
+    $sql = 'SELECT * FROM room WHERE user_id = :u_id ORDER BY create_date DESC';
+    $data = array(':u_id' => $u_id);
+    $stmt = queryPost($dbh, $sql, $data);
+    if ($stmt) {
+      $rst = $stmt->fetchAll();
+      debug('１ユーザーの全部屋情報：' . print_r($rst, true));
+      return $rst;
+    } elseif ($stmt == 0) {
+      debug('取得した１ユーザーの部屋数は0です');
+    }
+  } catch (Exception $e) {
+    debug('データベースエラー：' . $e->getMessage());
+  }
+}
+
 
 function getRoomsInfoRelatedTag($r_id = array())
 {
@@ -663,10 +727,11 @@ function updateImg($file, $key)
   }
 }
 
-function showImg($path) {
-  if(!empty($path)){
+function showImg($path)
+{
+  if (!empty($path)) {
     return 'img/sample.img.png';
-  }else{
+  } else {
     return $path;
   }
 }
@@ -692,15 +757,84 @@ function setLogs($uri, $ipaddress)
   return $rst;
 }
 
-function sendMail($from, $to, $subject, $comment){
-  if(!empty($to) && !empty($subject) && !empty($comment)){
-    mb_language( 'Japanese' );
-    mb_internal_encoding( 'UTF-8' );
-    $result = mb_send_mail($to, $subject, $comment, "From: ".$from);
+function sendMail($from, $to, $subject, $comment)
+{
+  if (!empty($to) && !empty($subject) && !empty($comment)) {
+    mb_language('Japanese');
+    mb_internal_encoding('UTF-8');
+    $result = mb_send_mail($to, $subject, $comment, "From: " . $from);
     if ($result) {
       debug('メールを送信しました。');
     } else {
       debug('メールの送信に失敗しました。');
     }
   }
+}
+
+function pagenation($totalPageNum, $currentPageNum, $pageColNum = 5)
+{
+  debug('ページネーション・パラメータ'.print_r($totalPageNum,true));
+  debug('ページネーション・パラメータ'.print_r($currentPageNum,true));
+  debug('ページネーション・パラメータ'.print_r($pageColNum,true));
+  if ((int)$currentPageNum === (int)$totalPageNum && (int)$totalPageNum > (int)$pageColNum) {
+    debug('これは1');
+    $minPageNum = $totalPageNum - 4;
+    $maxPageNum = $totalPageNum;
+  } elseif ((int)$currentPageNum === (int)($totalPageNum - 1) && (int)$totalPageNum > (int)$pageColNum) {
+    debug('これは2');
+
+    $minPageNum = $currentPageNum - 3;
+    $maxPageNum = $currentPageNum + 1;
+  } elseif ((int)$currentPageNum === 2 && (int)$totalPageNum > (int)$pageColNum) {
+    debug('これは3');
+
+    $minPageNum = $currentPageNum - 1;
+    $maxPageNum = $currentPageNum + 3;
+  } elseif ((int)$currentPageNum === 1 && (int)$totalPageNum > (int)$pageColNum) {
+    debug('これは4');
+    $minPageNum = $currentPageNum;
+    $maxPageNum = $currentPageNum + 4;
+  } elseif ((int)$totalPageNum < (int)$pageColNum) {
+    debug('これは5');
+
+    $minPageNum = 1;
+    $maxPageNum = $totalPageNum;
+  }else {
+    debug('これは6');
+
+    $minPageNum = $currentPageNum - 2;
+    $maxPageNum = $currentPageNum + 2;
+  }
+  debug('最大ページ数' . print_r($maxPageNum, true));
+  debug('最小ページ数' . print_r($minPageNum, true));
+
+  // <!-- ページネーションHTML -->
+  ob_start();
+?>
+  <div class="pagenation">
+    <ul class="pagenation-list">
+      <?php if((int)$currentPageNum !== 1){ ?>
+      <li class="pagenation-list-item">
+        <a href="index.php?p=<?php echo ($currentPageNum - 1); ?>" class="pagenation-list-item-a">&lt;</a>
+      </li>
+      <?php } ?>
+      <?php
+      for ($i = $minPageNum; $i <= $maxPageNum; $i++) {
+      ?>
+        <li class="pagenation-list-item">
+          <a href="index.php?p=<?php echo $i; ?>"  class="pagenation-list-item-a  <?php if((int)$currentPageNum === (int)$i){echo 'is-active';} ?>"><?php echo $i; ?></a>
+        </li>
+      <?php
+      }
+      ?>
+      <?php if((int)$currentPageNum !== (int)$maxPageNum){ ?>
+      <li class="pagenation-list-item">
+        <a href="index.php?p=<?php echo $currentPageNum + 1; ?>" class="pagenation-list-item-a">&gt;</a>
+      </li>
+      <?php } ?>
+    </ul>
+  </div>
+<?php
+ $str = ob_get_contents();
+ return $str;
 }

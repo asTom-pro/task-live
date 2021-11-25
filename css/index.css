@@ -156,6 +156,29 @@
 .select {
   width: 100%;
 }
+.pagenation {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+.pagenation-list {
+  display: flex;
+  justify-content: center;
+}
+.pagenation-list .pagenation-list-item {
+  font-weight: bold;
+}
+.pagenation-list .pagenation-list-item-a.is-active {
+  color: var(--main-blue);
+  pointer-events:none;
+}
+.pagenation-list .pagenation-list-item-a:hover {
+ color: var(--main-blue);
+}
+.pagenation-list-item-a{
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: .1s;
+}
 
 @media only screen and (max-width:600px) {
   .room-time .remain-time{

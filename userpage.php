@@ -27,7 +27,7 @@ if ($isMyPageFlg) {
 }
 
 $dbUserInfo = getUser($u_id);
-$dbUserCreatedRoomInfo = getRoomsInfo($u_id);
+$dbUserCreatedRoomInfo = getRoomsInfoOneUser($u_id);
 $formedDbUserCreatedRoomId = array();
 if (!empty($dbUserCreatedRoomInfo)) {
   foreach ($dbUserCreatedRoomInfo as $key => $val) {
