@@ -1,5 +1,6 @@
 <?php
 require_once('function.php');
+debug('ヘッダーページです。');
 
 $userInfo = (!empty($_SESSION['user_id'])) ? getUser($_SESSION['user_id']) : 1;
 $userImg = (!empty($userInfo['profile_img'])) ? $userInfo['profile_img'] : 'img/user-sample.svg';
@@ -21,7 +22,6 @@ if(!empty($_GET)){
     <div class="header-left">
       <a href="index.php">
         <img src="img/logo.svg" alt="" class="header-logo">
-        <!-- <img src="img/logo.svg" alt="" class="header-logo"> -->
       </a>
     </div>
     <div class="header-right">

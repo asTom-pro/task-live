@@ -612,8 +612,10 @@ function getEndTask($user_id)
 function getSessionOnce($key)
 {
   if (!empty($_SESSION[$key])) {
+    debug('セッションを一度だけ取得します。該当セッション：'.print_r($_SESSION[$key],true));
     $data = $_SESSION[$key];
     $_SESSION[$key] = '';
+    unset($_SESSION[$key]);
     return $data;
   }
 }
@@ -734,6 +736,15 @@ function showImg($path)
     return 'img/sample.img.png';
   } else {
     return $path;
+  }
+}
+
+function showErrMsg(){
+  global $err_msg;
+  if (!empty(count($err_msg))) {
+    for($i = 0;  $i < count($err_msg); $i++){
+      echo '<span class="err" style="float:none" >' . sanitize($err_msg[$i]) . '</span>'; 
+    }
   }
 }
 

@@ -11,5 +11,6 @@ if (isset($_COOKIE[session_name()])) {
 }
 session_destroy();
 
+
 debug('部屋一覧ページに遷移します。');
 header('Location:index.php?logout=true');

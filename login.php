@@ -130,6 +130,9 @@ $title = 'ログイン';
           <span class="js-check-checkbox">ログイン状態を保持する</span>
         </label>
         <input type="submit" value="ログイン" class="btn btn-submit">
+        <div class="login-support-items">
+          <a href="passwordRemind.php" class="text-decoration-underline ">パスワードを忘れた場合</a>
+        </div>
       </form>
     </div>
   </main>

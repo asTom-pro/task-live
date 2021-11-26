@@ -1,11 +1,13 @@
 <?php
 require('function.php');
 debugLogStart();
+debug('トップページです。');
 if (!empty($_GET['logout'])) {
   $_SESSION['success_msg'] =  'ログアウトしました!';
   unset($_GET['logout']);
 }
 if (!empty($_SESSION['user_id'])) {
+  debug('ユーザーIDがありました。');
   $u_id = $_SESSION['user_id'];
   $followedUser = getFollowerList($u_id);
   $followedUserId = array();
@@ -17,6 +19,8 @@ if (!empty($_SESSION['user_id'])) {
   foreach ($followingUser as $key => $val) {
     $followingUserId[] = $val['follow_id'];
   }
+}else{
+  debug('ユーザーIDがありません。');
 }
 
 if(!empty($_GET)){

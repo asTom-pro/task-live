@@ -17,7 +17,6 @@ if (empty($_GET)) {
 
     debug('ユーザー登録・トライします');
     try {
-
       $dbh = dbConnect();
       $sql = 'SELECT * FROM verify_email WHERE auth_token = :token';
       $data = array(':token' => $auth_token);
@@ -35,8 +34,9 @@ if (empty($_GET)) {
         $token_created_date = $rst['created_date'];
         if ((strtotime($token_created_date) + (60 * 60 * 24)) < strtotime(date("Y/m/d H:i:s"))) {
           // 認証トークン発行から２４時間経過した場合
-          debug('認証トークン発行から２４時間経過したので、トップページに遷移します。');
-          header('Location:index.php');    
+          debug('認証コード発行から２４時間経過したので、トップページに遷移します。');
+          global $err_msg;
+          $err_msg['token'] = '認証コード発行から２４時間経過したので、お手数ですが、再度初めから行ってください。';
         }else{
           // 認証トークン発行から２４時間経過してない場合
           try{
