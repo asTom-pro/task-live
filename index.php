@@ -151,7 +151,11 @@ $title = '部屋一覧';
                           <img src="
                         <?php
                         if (!empty($dbRoomUserInfo['profile_img'])) {
-                          echo sanitize($dbRoomUserInfo['profile_img']);
+                          if(file_exists($dbRoomUserInfo['profile_img'])){
+                            echo sanitize($dbRoomUserInfo['profile_img']);
+                          }else{
+                            echo 'img/user-sample.svg';
+                          }
                         } else {
                           echo 'img/user-sample.svg';
                         }
