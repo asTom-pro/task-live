@@ -357,26 +357,52 @@ font-size: 20px;
   min-height: 100px;
   width: 100%;
   background-color: rgb(97, 96, 96);
+  color: white;
+  box-sizing: border-box;
+  padding: 50px 200px;
   margin-top: 100px;
   clear: both;
-  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
 }
-.footer .footer-nav{
-  margin-top: 20px;
-  overflow: hidden;
-
+.footer .footer-logo{
+  height: 1.5rem;
+}
+.footer-info{
+  display: inline-block;
+}
+.footer-nav{
+  display: flex; 
+  flex-direction: row;
 }
 .footer-nav .footer-nav-list{
-  float: left;
-  overflow: hidden;
   color: white;
-  font-size: 16px;
-  margin-right: 20px;
+  margin-right: 50px;
   line-height: 20px;
-  height: 30px;
   transition: .2s;
 }
-.footer-nav .footer-nav-list:hover{
+.footer-nav .footer-nav-list .footer-list-title{
+  font-size: 20px;
+}
+.footer-list-items{
+  padding-left: 0;
+}
+.footer-list-items .footer-list-item{
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.footer-nav-list .sns-lists{
+  padding-left: 0;
+}
+.icon-link{
+  margin-right: 5px;
+}
+.footer-list-item{
+  transition: .1s;
+  cursor: pointer;
+}
+.footer-list-item:hover{
   color: rgba(207, 207, 207, 0.466);
 }
 .user-img{
