@@ -1,3 +1,12 @@
+@layer settings, generic, base, objects, vendors, components, utilities;
+
+@import './generic/normalize.css' layer(generic);
+@import './components/_header.css' layer(components);
+@import './components/_roomsummary.css' layer(components);
+@import './components/_roomsummaryclock.css' layer(components);
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+

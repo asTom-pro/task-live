@@ -1,0 +1,67 @@
+.clock{
+  width: 150px;
+  height: 150px;
+}
+
+@media (max-width:600px) {
+  .clock{
+    display: none;
+  }
+  .modal-share{
+    transition: 1s;
+    position: fixed;
+    bottom: -130px;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+    height: 130px;
+    display: none;
+    z-index: 5;
+    background-color: white;
+  }
+  .modal-share.is-active{
+    transition: 1s;
+    display: block;
+    bottom: 0px;
+  }
+  .modal-share-items {
+    display: flex;
+    justify-content: space-evenly;
+    padding-left: 0;
+  }
+  .modal-share-item {
+    max-width: 5em;
+  }
+  .modal-share-lead{
+    font-size: 0.8rem;
+  }
+  .modal-share-item-btn{
+    background-color:rgb(185, 185, 185);
+    padding: 10px;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 21px;
+  }
+  .btn-modal-close{
+    background-color: rgb(62 62 62);
+  }
+  .modal-share-item-lead{
+    font-size: .5rem;
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+  }
+  .btn-url-copy{
+    color: white;
+    vertical-align: middle
+  }
+  .btn-close{
+    color: white;
+    vertical-align: middle;
+  }
+
+}
