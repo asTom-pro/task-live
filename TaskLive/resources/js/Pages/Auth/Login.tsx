@@ -7,25 +7,12 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-
-// 仮の user データ
-const user: User = {
-  id: 1,
-  name: 'John Doe',
-  email: 'johndoe@example.com',
-  email_verified_at: 'valid Date object',
-};
-
-const ziggy = {
-  location: window.location.href,
-};
-
-const auth: Auth = {
-  user: user,
-};
+import { usePage } from '@inertiajs/react';
 
 // ログインコンポーネント
 const Login = ({ status, canResetPassword }: { status?: string, canResetPassword: boolean }) => {
+    const { auth, ziggy } = usePage<PageProps>().props;
+
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',

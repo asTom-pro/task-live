@@ -5,11 +5,12 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage  } from '@inertiajs/react';
 import { User, Auth, PageProps } from '@/types';
 
 
 export default function Register() {
+    const { auth, ziggy } = usePage<PageProps>().props;
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
@@ -27,22 +28,6 @@ export default function Register() {
         e.preventDefault();
 
         post(route('register'));
-    };
-
-    // 仮の user データ
-    const user: User = {
-        id: 1,
-        name: 'John Doe',
-        email: 'johndoe@example.com',
-        email_verified_at: 'valid Date object',
-    };
-  
-    const ziggy = {
-        location: window.location.href,
-    };
-        
-    const auth: Auth = {
-        user: user,
     };
 
     return (

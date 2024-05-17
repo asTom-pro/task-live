@@ -1,67 +1,66 @@
-.clock{
-  width: 150px;
-  height: 150px;
+:root {
+  --c0: #1f94fa;
+  --c1: #444;
+  --pos: 0%;
 }
 
-@media (max-width:600px) {
-  .clock{
-    display: none;
+@keyframes pos {
+  90%, 100% {
+    --pos: 100%;
   }
-  .modal-share{
-    transition: 1s;
-    position: fixed;
-    bottom: -130px;
-    width: 100%;
-    border-radius: 10px 10px 0 0;
-    height: 130px;
-    display: none;
-    z-index: 5;
-    background-color: white;
+}
+
+@keyframes c0 {
+  50% {
+    --c0: #444;
   }
-  .modal-share.is-active{
-    transition: 1s;
-    display: block;
-    bottom: 0px;
+}
+
+@keyframes c1 {
+  50% {
+    --c1: #1f94fa;
   }
-  .modal-share-items {
-    display: flex;
-    justify-content: space-evenly;
-    padding-left: 0;
+}
+
+.clock {
+  border-radius: 50%;
+  border: 1px solid black;
+  padding: 1px; /* borderでオーバーした1px分 */
+  box-sizing: border-box;
+  width: 150px;
+  height: 150px;
+  position: relative;
+  background-color: white;
+}
+
+.clock-hand {
+  transform: rotate(90deg);
+  background-color: #999;
+  border-radius: 2px;
+  height: 4px; /* 線幅 */
+  position: absolute;
+  right: calc(50% - 2px); /* 位置調整 線幅の半分ずらす */
+  top: calc(50% - 2px); /* 位置調整 線幅の半分ずらす */
+  transform-origin: calc(100% - 2px) center; /* アニメーションの中心軸 線幅の半分ずらす */
+  width: 50%;
+  transform: rotate(90deg);
+}
+
+/* 秒針の回転アニメーション */
+@keyframes rotation-s {
+  100% {
+    transform: rotate(450deg); /* 初期位置 + 360deg で一周 */
   }
-  .modal-share-item {
-    max-width: 5em;
-  }
-  .modal-share-lead{
-    font-size: 0.8rem;
-  }
-  .modal-share-item-btn{
-    background-color:rgb(185, 185, 185);
-    padding: 10px;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 50%;
-    text-align: center;
-    vertical-align: middle;
+}
+
+@media only screen and (max-width: 600px) {
+  .clock {
+    width: 50px;
+    height: 50px;
     margin-left: auto;
     margin-right: auto;
-    line-height: 21px;
   }
-  .btn-modal-close{
-    background-color: rgb(62 62 62);
+  .clock-hand {
+    height: 3px;
   }
-  .modal-share-item-lead{
-    font-size: .5rem;
-    display: block;
-    text-align: center;
-    margin-top: 5px;
-  }
-  .btn-url-copy{
-    color: white;
-    vertical-align: middle
-  }
-  .btn-close{
-    color: white;
-    vertical-align: middle;
-  }
-
 }

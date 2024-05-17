@@ -1,23 +1,40 @@
-// Header.tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Tag } from '@/types';
 
-const RoomSearch = () => {
+interface RoomSearchProps {
+  tags: Tag[];
+  onTagSearch: (tag: string) => void;
+  selectedTag: string;
+}
+
+const RoomSearch: React.FC<RoomSearchProps> = ({ tags, onTagSearch, selectedTag }) => {
+  const [internalSelectedTag, setInternalSelectedTag] = useState<string>(selectedTag);
+
+  useEffect(() => {
+    setInternalSelectedTag(selectedTag); 
+  }, [selectedTag]);
+
+  const handleTagChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const tag = event.target.value;
+    setInternalSelectedTag(tag);
+    onTagSearch(tag);
+  };
+
   return (
     <div className="p-5">
-        <div className="">
-          <form action="" method="GET">
-            <label className='flex flex-col'>
-              タグ
-              <select name="tag" className="select rounded">
-                <option value="">選択してください。</option>
-                <option value="数学">数学</option>
-              </select>
-            </label>
-            <div className="mt-3 flex justify-end">
-              <input type="submit" value="検索" className="mt-3 text-white bg-gray-500 px-2 py-1 ml-auto rounded" />
-            </div>
-          </form>
-        </div>
+      <form onSubmit={(e) => e.preventDefault()}>
+        <label className='flex flex-col'>
+          タグ
+          <select name="tag" className="select rounded" value={internalSelectedTag} onChange={handleTagChange}>
+            <option value="">選択してください。</option>
+            {tags.map(tag => (
+              <option key={tag.id} value={tag.name}>
+                {tag.name}
+              </option>
+            ))}
+          </select>
+        </label>
+      </form>
     </div>
   );
 };
