@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FormEvent } from 'react';
+import React, { useEffect, useState, FormEvent, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import usersample from '@/Pages/img/user-sample.svg';
 import { faShareAlt } from '@fortawesome/free-solid-svg-icons';
@@ -6,7 +6,7 @@ import Header from '@/Components/Header';
 import Clock from '@/Components/Clock'; 
 import RoomInviteButton from '@/Components/RoomInviteButton'; 
 import { User, Auth, PageProps, Room, RoomComment, EndedTaskFormData } from '@/types';
-import { usePage, useForm } from '@inertiajs/react';
+import { usePage, useForm, Link } from '@inertiajs/react';
 import axios from 'axios';
 
 
@@ -31,6 +31,11 @@ const RoomShow: React.FC = () => {
   const [remainingTime, setRemainingTime] = useState<number>(0);
   const [task, setTask] = useState('');
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [isRoomEndedModalOpen, setIsRoomEndedModalOpen] = useState(false);
+  const [userCount, setUserCount] = useState<number>(1);
+  const intervalRef = useRef<number | null>(null);
+
+
   if (!room) {
     return <div>Loading...</div>; // データが読み込まれるまでの間、ローディング表示を行う
   }
@@ -56,26 +61,28 @@ const RoomShow: React.FC = () => {
     const remainingTime = limitTimeInSeconds - elapsedTime;
     setRemainingTime(remainingTime > 0 ? remainingTime : 0);
 
-    const interval = setInterval(() => {
-      setRemainingTime((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          setIsTaskModalOpen(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-    
+    if (remainingTime <= 0) {
+      setIsRoomEndedModalOpen(true);
+    } else {
+      const interval = setInterval(() => {
+        setRemainingTime((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            setIsTaskModalOpen(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(interval);
+    }
   }, [room.created_at, room.time_limit]);
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
         const response = await axios.get(`/rooms/${room.id}/comments`);
-        console.log('Fetched comments:', response.data);  // デバッグ用のログ
+        console.log('Fetched comments:', response.data);
         setComments(response.data);
       } catch (error) {
         console.error('Error fetching comments:', error);
@@ -83,6 +90,9 @@ const RoomShow: React.FC = () => {
     };
 
     fetchComments();
+    const interval = setInterval(fetchComments, 1000);
+
+    return () => clearInterval(interval);
   }, [room.id]);
 
   const handleCommentSubmit = async () => {
@@ -110,6 +120,26 @@ const RoomShow: React.FC = () => {
   useEffect(() => {
     console.log('Comments updated:', comments);  // comments が更新されるたびにログを出力
   }, [comments]);
+
+  useEffect(() => {
+    const fetchUserCount = async () => {
+      try {
+        const response = await axios.get(`/room/${room.id}/user-count`);
+        setUserCount(response.data.user_count);
+      } catch (error) {
+        console.error('Error fetching user count:', error);
+      }
+    };
+
+    fetchUserCount();
+    intervalRef.current = window.setInterval(fetchUserCount, 1000);
+    return () => {
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current);
+      }
+    };
+
+  }, [room.id]);
 
   const formattedTime = formatTime(remainingTime);
 
@@ -144,9 +174,9 @@ const RoomShow: React.FC = () => {
                   </div>
                   <div className="flex justify-between">
                     <div className="float-left ">
-                    現在                 
+                    {remainingTime > 0 ? '現在': '終了' }                 
                       <span className="text-6xl mx-5">
-                        <span id="show-count">1</span>
+                        <span id="show-count">{userCount}</span>
                       </span>人
                     </div>
                     <a href="userpage.php" className="flex justify-end">
@@ -229,15 +259,25 @@ const RoomShow: React.FC = () => {
               </div>
             </div>
           )}
+          {isRoomEndedModalOpen && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+              <div className="bg-white rounded-lg p-6">
+                <h2 className="text-xl font-bold mb-4">この部屋は終了しました</h2>                
+                <div className='flex justify-between'>
+                  <Link href={route('home')} className="text-white bg-slate-500 p-2 rounded font-semibold">
+                  部屋を探す
+                  </Link>
+                  <Link href={route('room.create')} className="text-white bg-sky-500 p-2 rounded font-semibold">
+                  部屋を作る
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
           </div>
       </div>
     </>
   );
-};
-
-// Propsの型定義やデフォルト値の設定が必要な場合はここで設定
-RoomShow.defaultProps = {
-  name: 'World'
 };
 
 // 必要に応じてPropTypesで型チェックを行う

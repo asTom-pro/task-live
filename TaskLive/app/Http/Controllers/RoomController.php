@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
-use App\Models\RoomTag;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\RedirectResponse;
+use App\Models\RoomTag;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\LogController;
+use Illuminate\Support\Facades\Validator;
 
 class RoomController extends Controller
 {
@@ -96,5 +97,25 @@ class RoomController extends Controller
         $this->logController->setLogs($uri, $ipaddress);
 
         return Inertia::render('RoomShow', ['room' => $room]);
+    }
+
+    public function getUserCount(Request $request, $id)
+    {
+        $uri = $request->path();
+
+        if (substr($uri, -11) === '/user-count') {
+            $uri = substr($uri, 0, -11);
+        }
+
+  
+        $userCount = DB::table('logs')
+            ->select(DB::raw('COUNT(DISTINCT ipaddress) as cnt'))
+            ->where('uri', $uri)
+            ->where('updated_at', '>', DB::raw('CURRENT_TIMESTAMP + interval -1 minute'))
+            ->value('cnt');
+        Log::debug('URI：');
+        Log::debug($uri);
+
+        return response()->json(['user_count' => $userCount]);
     }
 }

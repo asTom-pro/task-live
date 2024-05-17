@@ -24,7 +24,7 @@ const UserProfile: React.FC = () => {
           <div className="w-full lg:w-3/4 bg-white p-6 rounded-lg shadow-md">
             <div className="user-profile">
               <div>
-                <TaskList authUserId={auth.user?.id ?? null} />
+                {isMyPage && <TaskList authUserId={auth.user?.id ?? null} />}
               </div>
               <div className="text-center mt-8">
                 <p className="text-4xl">総学習時間</p>

@@ -37,6 +37,7 @@ Route::get('/user/{id}/following', [FollowController::class, 'following'])->name
 Route::get('/user/{id}/followers', [FollowController::class, 'followers'])->name('user.followers');Route::get('/logs', [LogController::class, 'getLogs']);
 Route::post('/task/store', [TaskController::class, 'store'])->name('task.store');
 Route::get('/tasks', [TaskController::class, 'index']);
+Route::get('/room/{roomId}/user-count', [RoomController::class, 'getUserCount']);
 
 
 

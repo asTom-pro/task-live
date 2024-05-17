@@ -15,9 +15,14 @@ class HomeController extends Controller
     public function index(Request $request):Response
     {
 
+        $search = $request->input('search');
         $tag = $request->input('tag');
 
-        $query = Room::with('tags', 'user');
+        $query = Room::query();
+
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
 
         if ($tag) {
             $query->whereHas('tags', function ($query) use ($tag) {
@@ -25,7 +30,7 @@ class HomeController extends Controller
             });
         }
 
-        $rooms = $query->orderBy('created_at', 'desc')->get();
+        $rooms = $query->with(['tags', 'user'])->orderBy('created_at', 'desc')->get();
         $tags = RoomTag::all();
 
         return Inertia::render('Top', [

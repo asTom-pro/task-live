@@ -17,9 +17,21 @@ import { Room, PageProps } from '@/types';
 const Top: React.FC = () => {
   // 状態（state）や他の変数を定義
   // const [state, setState] = React.useState(initialState);
-  const { auth, ziggy, rooms, tags } = usePage<PageProps>().props;
-  const [filteredRooms, setFilteredRooms] = useState<Room[]>(rooms ?? []);
+  const { auth, ziggy, tags, search, rooms = [] } = usePage<PageProps>().props;
+  const [filteredRooms, setFilteredRooms] = useState<Room[]>(rooms as Room[]);
   const [selectedTag, setSelectedTag] = useState<string>('');
+
+  useEffect(() => {
+    if (search) {
+      setFilteredRooms(
+        rooms.filter((room) =>
+          room.name.toLowerCase().includes(search.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredRooms(rooms as Room[]);
+    }
+  }, [search, rooms]);
 
   const handleTagSearch = async (tag: string) => {
     setSelectedTag(tag);

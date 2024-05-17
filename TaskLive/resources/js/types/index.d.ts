@@ -44,6 +44,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     room?: Room;
     rooms?: Room[]; 
     tags?: Tag[]; 
+    search?: string; 
 };
 export interface UserProfileProps {
   id: number;
