@@ -33,17 +33,17 @@ class RoomController extends Controller
             'room_name' => 'required|string|max:20',
             'tag' => 'nullable|string|max:20',
             'set_time_hour' => 'nullable|integer|min:0|max:23',
-            'set_time_minute' => 'nullable|integer|min:1|max:59',
+            'set_time_minute' => 'nullable|integer|min:0|max:59',
         ], [
             'set_time_hour.required_without_all' => 'set_time_hourかset_time_minuteのどちらかは必須です。',
             'set_time_minute.required_without_all' => 'set_time_minuteかset_time_hourのどちらかは必須です。',
         ]);
 
-        $validator->sometimes('set_time_hour', 'required_without_all:set_time_minute', function ($input) {
+        $validator->sometimes('set_time_hour', 'required_without:set_time_minute', function ($input) {
             return !$input->set_time_hour && !$input->set_time_minute;
         });
 
-        $validator->sometimes('set_time_minute', 'required_without_all:set_time_hour', function ($input) {
+        $validator->sometimes('set_time_minute', 'required_without:set_time_hour', function ($input) {
             return !$input->set_time_hour && !$input->set_time_minute;
         });
 
@@ -113,8 +113,6 @@ class RoomController extends Controller
             ->where('uri', $uri)
             ->where('updated_at', '>', DB::raw('CURRENT_TIMESTAMP + interval -1 minute'))
             ->value('cnt');
-        Log::debug('URI：');
-        Log::debug($uri);
 
         return response()->json(['user_count' => $userCount]);
     }

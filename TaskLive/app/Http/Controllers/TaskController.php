@@ -17,10 +17,6 @@ class TaskController extends Controller
         $user_id = $request->query('user_id');
         $tasks = EndedTask::where('user_id', $user_id)->orderBy('created_at', 'desc')->get();
 
-
-        Log::debug('タスク：');
-        Log::debug($tasks);
-
         return response()->json($tasks);
     }
 

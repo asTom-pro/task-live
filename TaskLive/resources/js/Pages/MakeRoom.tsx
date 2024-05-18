@@ -1,21 +1,10 @@
 import Header from '@/Components/Header';
-import React from 'react';
-import { User, Auth, PageProps } from '@/types';
-import { useEffect, FormEventHandler } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, usePage } from '@inertiajs/react';
+import { PageProps } from '@/types';
 
-
-
-
-
-// コンポーネントで使用する他のコンポーネントやライブラリをインポートする場合はここに記述します
-
-// コンポーネントの定義
 const MakeRoom = () => {
-  // 状態（state）や他の変数を定義
-  // const [state, setState] = React.useState(initialState);
   const { auth, ziggy } = usePage<PageProps>().props;
-
 
   const { data, setData, post, processing, errors } = useForm({
     room_name: '',
@@ -24,8 +13,12 @@ const MakeRoom = () => {
     set_time_minute: 0,
   });
 
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [selectedHour, setSelectedHour] = useState<number | null>(null);
+  const [selectedMinute, setSelectedMinute] = useState<number | null>(null);
+
   const hours = [...Array(24).keys()];
-  const minutes = [...Array(60).keys()]; 
+  const minutes = [...Array(60).keys()];
 
   const hourOptions = hours.map(hour => (
     <option key={hour} value={hour}>{hour}</option>
@@ -34,13 +27,28 @@ const MakeRoom = () => {
     <option key={minute} value={minute}>{minute}</option>
   ));
 
-  // メソッドやイベントハンドラの定義
-  const submit = (e: React.FormEvent) => {
+  const handleRecommendedTime = (hour: number, minute: number) => {
+    console.log('hour:');
+    console.log(hour);
+    setSelectedHour(hour);
+    setSelectedMinute(minute);
+    setShowDropdown(false);
+  };
+
+  useEffect(() => {
+    if (selectedHour !== null) {
+      setData('set_time_hour', selectedHour);
+    }
+    if (selectedMinute !== null) {
+      setData('set_time_minute', selectedMinute);
+    }
+  }, [selectedHour, selectedMinute]);
+
+  const submit: React.FormEventHandler = (e) => {
     e.preventDefault();
     post(route('room.store'));
   };
 
-  // コンポーネントがレンダリングするUI
   return (
     <>
       <Header auth={auth} ziggy={ziggy} />
@@ -93,8 +101,8 @@ const MakeRoom = () => {
                 <select
                   name="set_time_hour"
                   className="w-20 p-2 border border-gray-300 rounded-md"
-                  value={data.set_time_hour}
-                  onChange={e => setData('set_time_hour', parseInt(e.target.value))}
+                  value={selectedHour !== null ? selectedHour : ''}
+                  onChange={e => setSelectedHour(parseInt(e.target.value))}
                 >
                   {hourOptions}
                 </select>
@@ -102,13 +110,46 @@ const MakeRoom = () => {
                 <select
                   name="set_time_minute"
                   className="w-20 p-2 border border-gray-300 rounded-md"
-                  value={data.set_time_minute}
-                  onChange={e => setData('set_time_minute', parseInt(e.target.value))}
+                  value={selectedMinute !== null ? selectedMinute : ''}
+                  onChange={e => setSelectedMinute(parseInt(e.target.value))}
                 >
                   {minuteOptions}
                 </select>
                 <span className="text-sm">分</span>
-                <button type="button" className="ml-2 px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-800">おすすめ時間</button>
+                <div className="relative">
+                  <button
+                    type="button"
+                    className="ml-2 px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-800"
+                    onClick={() => setShowDropdown(!showDropdown)}
+                  >
+                    おすすめ時間
+                  </button>
+                  {showDropdown && (
+                    <div className="absolute mt-2 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                      <button
+                        type="button"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => handleRecommendedTime(0, 25)}
+                      >
+                        ポモドーロ (25分)
+                      </button>
+                      <button
+                        type="button"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => handleRecommendedTime(0, 15)}
+                      >
+                        ショートブレイク (15分)
+                      </button>
+                      <button
+                        type="button"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => handleRecommendedTime(1, 0)}
+                      >
+                        ロングブレイク (1時間)
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
               {(errors.set_time_hour || errors.set_time_minute) && <p className="text-red-500 text-sm mt-1">時間設定に誤りがあります。</p>}
             </div>
@@ -128,16 +169,8 @@ const MakeRoom = () => {
   );
 };
 
+MakeRoom.defaultProps = {
+  name: 'World'
+};
 
-// Propsの型定義やデフォルト値の設定が必要な場合はここで設定
-  MakeRoom.defaultProps = {
-    name: 'World'
-  };
-
-// 必要に応じてPropTypesで型チェックを行う
-// MyComponent.propTypes = {
-//   name: PropTypes.string
-// };
-
-// コンポーネントをエクスポート
 export default MakeRoom;

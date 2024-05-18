@@ -82,10 +82,10 @@ const RoomShow: React.FC = () => {
     const fetchComments = async () => {
       try {
         const response = await axios.get(`/rooms/${room.id}/comments`);
-        console.log('Fetched comments:', response.data);
+        // console.log('Fetched comments:', response.data);
         setComments(response.data);
       } catch (error) {
-        console.error('Error fetching comments:', error);
+        // console.error('Error fetching comments:', error);
       }
     };
 
@@ -101,13 +101,13 @@ const RoomShow: React.FC = () => {
         comment: newComment,
         room_id: room.id,
       });
-      console.log('Submitted comment:', response.data);  // デバッグ用のログ
+      // console.log('Submitted comment:', response.data);  
       setComments(() => {
         return response.data;
       });
       setNewComment('');
     } catch (error) {
-      console.error('Error submitting comment:', error);
+      // console.error('Error submitting comment:', error);
     }
   };
 
@@ -117,9 +117,9 @@ const RoomShow: React.FC = () => {
     setIsTaskModalOpen(false);
   };
 
-  useEffect(() => {
-    console.log('Comments updated:', comments);  // comments が更新されるたびにログを出力
-  }, [comments]);
+  // useEffect(() => {
+  //   console.log('Comments updated:', comments);  // comments が更新されるたびにログを出力
+  // }, [comments]);
 
   useEffect(() => {
     const fetchUserCount = async () => {

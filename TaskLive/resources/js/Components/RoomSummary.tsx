@@ -46,16 +46,12 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms }) => {
     return Math.max(0, durationInMinutes - elapsedTimeInMinutes);
   };
 
-  if (!auth || !auth.user) {
-    return <div className='text-center'>ユーザー情報が取得できませんでした。</div>;
-  }
-
   const userRooms = auth?.user ? rooms.filter(room => room.user && room.user.id === auth.user?.id) : [];
   const activeRooms = userRooms.filter(room => calculateRemainTime(Number(room.time_limit), room.created_at) > 0);
 
   return (
     <div className="w-full p-10">
-      {activeRooms.length > 0 && (
+      {auth?.user && activeRooms.length > 0 && (
         <div className="mb-5">
           <p className="font-semibold">作成した部屋がまだ開いています</p>
           {activeRooms.map(room => {

@@ -19,9 +19,6 @@ class UserController extends Controller
         $user = User::with('followers')->findOrFail($id); 
         $isMyPage = $authUser && $authUser->id == $user->id;
         $authUserId = $authUser ? $authUser->id : null;
-
-        Log::debug($user);
-
         $userRooms = Room::where('user_id', $id)->get();
         $joinedRoomIds = $user->joinedRooms()->pluck('rooms.id')->toArray();
         $uniqueJoinedRoomIds = array_diff($joinedRoomIds, $userRooms->pluck('id')->toArray());
@@ -80,9 +77,6 @@ class UserController extends Controller
     {
         $user = User::find(Auth::id());
     
-        // リクエスト内容をログに出力
-        Log::debug('Request Data:', $request->all());
-    
         $validatedData = $request->validate([
             'name' => 'nullable|string|max:255',
             'profile_text' => 'nullable|string|max:140',
@@ -95,13 +89,7 @@ class UserController extends Controller
             $validatedData['profile_img'] = Storage::url($path);
         }
     
-        // バリデート済みデータをログに出力
-        Log::debug('Validated Data:', $validatedData);
-    
         $result = $user->update($validatedData);
-    
-        // 更新結果をログに出力
-        Log::debug('Update Result:', ['result' => $result]);
     
         if ($result) {
             return redirect()->route('user.mypage')->with('success_msg', 'プロフィールを更新しました！');

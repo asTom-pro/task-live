@@ -26,10 +26,6 @@ class RoomCommentController extends Controller
         ]);
 
         $user_id = Auth::check() ? Auth::id() : null;
-
-        Log::debug('ユーザーiD');
-        Log::debug($user_id);
-
         $comment = new RoomComment();
         $comment->comment = $request->comment;
         $comment->room_id = $request->room_id;

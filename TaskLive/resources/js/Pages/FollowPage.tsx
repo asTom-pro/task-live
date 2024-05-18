@@ -5,7 +5,7 @@ import SideBarProfile from '@/Components/SideBarProfile';
 import { UserProfilePageProps } from '@/types';
 
 const FollowPage: React.FC = () => {
-  const { auth, ziggy, followingUsers, followers, followingUserNum, followedUserNum, isMyPage, user } = usePage<UserProfilePageProps>().props;
+  const { auth, ziggy, followingUsers, followers, followingUserNum, followedUserNum, isMyPage, user, totalRoomTime } = usePage<UserProfilePageProps>().props;
 
   const renderUsers = (users: UserProfilePageProps['user'][]) => {
     if (!users || users.length === 0) {
@@ -34,8 +34,8 @@ const FollowPage: React.FC = () => {
               <div className="text-center mt-8">
                 <p className="text-4xl">総学習時間</p>
                 <div className="flex justify-center items-center">
-                  <span className="text-6xl mx-2">{followingUserNum}</span>
-                  <span className="text-2xl">人</span>
+                  <span className="text-6xl mx-2">{totalRoomTime | 0}</span>
+                  <span className="text-2xl">時間</span>
                 </div>
               </div>
               <div className="mt-8">
