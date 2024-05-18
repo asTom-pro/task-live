@@ -1,9 +1,13 @@
 import Header from '@/Components/Header';
 import React, { useState, useEffect } from 'react';
-import { useForm, usePage } from '@inertiajs/react';
+import { useForm, usePage, Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
 
 const MakeRoom = () => {
+  const title = '部屋作成';
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
   const { auth, ziggy } = usePage<PageProps>().props;
 
   const { data, setData, post, processing, errors } = useForm({
@@ -51,6 +55,7 @@ const MakeRoom = () => {
 
   return (
     <>
+      <Head title={title} />
       <Header auth={auth} ziggy={ziggy} />
       <div className="min-h-screen bg-gray-100 pt-8">
         <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg mx-auto">

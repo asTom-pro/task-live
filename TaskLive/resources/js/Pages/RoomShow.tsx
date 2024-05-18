@@ -6,9 +6,8 @@ import Header from '@/Components/Header';
 import Clock from '@/Components/Clock'; 
 import RoomInviteButton from '@/Components/RoomInviteButton'; 
 import { User, Auth, PageProps, Room, RoomComment, EndedTaskFormData } from '@/types';
-import { usePage, useForm, Link } from '@inertiajs/react';
+import { usePage, useForm, Link, Head } from '@inertiajs/react';
 import axios from 'axios';
-
 
 
 
@@ -25,7 +24,7 @@ const formatTime = (seconds: number): string => {
 const RoomShow: React.FC = () => {
   // 状態（state）や他の変数を定義
   // const [state, setState] = React.useState(initialState);
-  const { room, auth, ziggy } = usePage<PageProps>().props;
+  const { room, auth, ziggy, title } = usePage<PageProps>().props;
   const [comments, setComments] = useState<RoomComment[]>([]);
   const [newComment, setNewComment] = useState('');
   const [remainingTime, setRemainingTime] = useState<number>(0);
@@ -34,6 +33,10 @@ const RoomShow: React.FC = () => {
   const [isRoomEndedModalOpen, setIsRoomEndedModalOpen] = useState(false);
   const [userCount, setUserCount] = useState<number>(1);
   const intervalRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
 
 
   if (!room) {
@@ -154,6 +157,7 @@ const RoomShow: React.FC = () => {
   // コンポーネントがレンダリングするUI
   return (
     <>
+      <Head title={`${title}の部屋`} />
       <Header auth={auth} ziggy={ziggy} />
       <div className="bg-slate-100 p-10 min-h-screen">
           <div className="max-w-screen-lg mx-auto justify-center">

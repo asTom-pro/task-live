@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useForm, usePage } from '@inertiajs/react';
+import React, { useEffect } from 'react';
+import { useForm, usePage, Head } from '@inertiajs/react';
 import { User, Auth, PageProps } from '@/types';
 import Header from '@/Components/Header';
 import usersample from '@/Pages/img/user-sample.svg';
@@ -9,6 +9,10 @@ interface EditProfileProps {
 }
 
 const EditProfile: React.FC<EditProfileProps> = ({ user }) => {
+  const title = 'プロフィール編集';
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
   const { auth, ziggy } = usePage<PageProps>().props;
   const { data, setData, post, processing, errors } = useForm({
     name: user.name || '',
@@ -32,6 +36,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ user }) => {
 
   return (
     <>
+      <Head title={title} />
       <Header auth={auth} ziggy={ziggy} />
       <div className='bg-slate-100 min-h-screen p-10'>
         <div className="max-w-xl mx-auto">

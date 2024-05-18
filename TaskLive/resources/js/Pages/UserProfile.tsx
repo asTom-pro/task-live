@@ -1,11 +1,15 @@
-import React from 'react';
-import { usePage } from '@inertiajs/react';
+import React, { useEffect } from 'react';
+import { usePage, Head } from '@inertiajs/react';
 import { UserProfilePageProps } from '@/types';
 import Header from '@/Components/Header';
 import SideBarProfile from '@/Components/SideBarProfile';
 import TaskList from '@/Components/TaskList';
 
 const UserProfile: React.FC = () => {
+  const title = 'ユーザーページ';
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
   const { auth, ziggy, rooms, tags, user, isMyPage, userRooms, joinedRooms, totalRoomTime, followingUserNum, followedUserNum } = usePage<UserProfilePageProps>().props;
 
   const formatTime = (seconds: number) => {
@@ -16,6 +20,7 @@ const UserProfile: React.FC = () => {
 
   return (
     <>
+      <Head title={title} />
       <div>
         <Header auth={auth} ziggy={ziggy} />
       </div>

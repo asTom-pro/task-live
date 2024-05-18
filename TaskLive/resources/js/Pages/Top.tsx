@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { usePage } from '@inertiajs/react';
-import { router } from '@inertiajs/react';
+import { router, Head } from '@inertiajs/react';
 
 
 import Header from '@/Components/Header'; 
@@ -16,7 +16,10 @@ import { Room, PageProps } from '@/types';
 // コンポーネントの定義
 const Top: React.FC = () => {
   // 状態（state）や他の変数を定義
-  // const [state, setState] = React.useState(initialState);
+  const title = 'ホーム';
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
   const { auth, ziggy, tags, search, rooms = [] } = usePage<PageProps>().props;
   const [filteredRooms, setFilteredRooms] = useState<Room[]>(rooms as Room[]);
   const [selectedTag, setSelectedTag] = useState<string>('');
@@ -62,6 +65,7 @@ const Top: React.FC = () => {
   // コンポーネントがレンダリングするUI
   return (
     <>
+      <Head title={title} />
       <div>
       <Header auth={auth} ziggy={ziggy} />
         {/* <h1>Hello, {props.name}!</h1> */}

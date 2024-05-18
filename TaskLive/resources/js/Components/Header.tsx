@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+// Header.tsx
+import React from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import logo from '@/Pages/img/logo.svg';
 import usersample from '@/Pages/img/user-sample.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { PageProps } from '@/types';
+import { Auth } from '@/types';
 import Dropdown from '@/Components/Dropdown';
 
-interface HeaderProps extends PageProps {}
+interface HeaderProps {
+  auth: Auth;
+  ziggy?: { location: string };
+}
 
-const Header: React.FC<HeaderProps> = ({ auth }) => {
+const Header: React.FC<HeaderProps> = ({ auth, ziggy }) => {
   const { data, setData, get } = useForm({ search: '' });
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ auth }) => {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if ( e.key === 'Enter') {
+    if (e.key === 'Enter') {
       e.preventDefault();
       handleSearchSubmit(e as unknown as React.FormEvent<HTMLFormElement>);
     }

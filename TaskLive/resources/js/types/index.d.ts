@@ -39,6 +39,7 @@ export interface Auth {
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+    title: string;
     auth: Auth;
     ziggy?: { location: string };
     room?: Room;
@@ -46,6 +47,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     tags?: Tag[]; 
     search?: string; 
 };
+
 export interface UserProfileProps {
   id: number;
   name: string;

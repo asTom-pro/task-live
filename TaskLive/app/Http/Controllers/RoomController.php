@@ -96,7 +96,9 @@ class RoomController extends Controller
 
         $this->logController->setLogs($uri, $ipaddress);
 
-        return Inertia::render('RoomShow', ['room' => $room]);
+        $page_title = $room->name;
+
+        return Inertia::render('RoomShow', ['room' => $room, 'title' => $page_title]);
     }
 
     public function getUserCount(Request $request, $id)
