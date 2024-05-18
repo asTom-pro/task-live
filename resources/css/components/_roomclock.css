@@ -1,0 +1,66 @@
+:root {
+  --c0: #1f94fa;
+  --c1: #444;
+  --pos: 0%;
+}
+
+@keyframes pos {
+  90%, 100% {
+    --pos: 100%;
+  }
+}
+
+@keyframes c0 {
+  50% {
+    --c0: #444;
+  }
+}
+
+@keyframes c1 {
+  50% {
+    --c1: #1f94fa;
+  }
+}
+
+.clock {
+  border-radius: 50%;
+  border: 1px solid black;
+  padding: 1px; /* borderでオーバーした1px分 */
+  box-sizing: border-box;
+  width: 150px;
+  height: 150px;
+  position: relative;
+  background-color: white;
+}
+
+.clock-hand {
+  transform: rotate(90deg);
+  background-color: #999;
+  border-radius: 2px;
+  height: 4px; /* 線幅 */
+  position: absolute;
+  right: calc(50% - 2px); /* 位置調整 線幅の半分ずらす */
+  top: calc(50% - 2px); /* 位置調整 線幅の半分ずらす */
+  transform-origin: calc(100% - 2px) center; /* アニメーションの中心軸 線幅の半分ずらす */
+  width: 50%;
+  transform: rotate(90deg);
+}
+
+/* 秒針の回転アニメーション */
+@keyframes rotation-s {
+  100% {
+    transform: rotate(450deg); /* 初期位置 + 360deg で一周 */
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .clock {
+    width: 50px;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .clock-hand {
+    height: 3px;
+  }
+}
