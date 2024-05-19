@@ -8,9 +8,10 @@ import styles from '../../css/components/_roomsummaryclock.module.css';
 
 interface RoomSummaryProps {
   rooms: Room[];
+  onTagSearch: (tag: string) => void;
 }
 
-const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms }) => {
+const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
   const { auth } = usePage<PageProps>().props;
   const [userCounts, setUserCounts] = useState<{ [roomId: number]: number }>({});
 
@@ -68,7 +69,16 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms }) => {
                       </div>
                       <div>
                         {room.tags && room.tags.map(tag => (
-                          <Link key={tag.id} className="text-sm mr-3 box-border px-3 py-1 bg-slate-500 text-white rounded-lg inline-block" href={`/tags/${tag.id}`}>
+                          <Link
+                          key={tag.id} 
+                          className="text-sm mr-3 box-border px-3 py-1 bg-slate-500 text-white rounded-lg inline-block" 
+                          href={`/tags/${tag.id}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            console.log('Tag clicked:', tag.name);
+                            onTagSearch(tag.name);
+                          }}
+                          >
                             {tag.name}
                           </Link>
                         ))}
@@ -115,7 +125,15 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms }) => {
                   </div>
                   <div>
                     {room.tags && room.tags.map(tag => (
-                      <Link key={tag.id} className="text-sm mr-3 box-border px-3 py-1 bg-slate-500 text-white rounded-lg inline-block" href={`/tags/${tag.id}`}>
+                      <Link 
+                      key={tag.id} 
+                      className="text-sm mr-3 box-border px-3 py-1 bg-slate-500 text-white rounded-lg inline-block" 
+                      href={`/tags/${tag.id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        console.log('Tag clicked:', tag.name);
+                        onTagSearch(tag.name);
+                      }}                      >
                         {tag.name}
                       </Link>
                     ))}

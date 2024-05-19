@@ -75,7 +75,7 @@ const Top: React.FC = () => {
       <div className='bg-slate-100 p-10 min-h-screen'>
         <div className='max-w-screen-lg mx-auto flex gap-5 justify-between'>
           <div className="w-3/4 bg-white">
-            <RoomSummary rooms={filteredRooms} />
+            <RoomSummary rooms={filteredRooms} onTagSearch={handleTagSearch} />
           </div>
           <div className="w-1/4 bg-white">
             <RoomSearch tags={tags ?? []} onTagSearch={handleTagSearch} selectedTag={selectedTag} />
