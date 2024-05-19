@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import { UserProfilePageProps } from '@/types';
 import usersample from '@/Pages/img/user-sample.svg';
+import LoginModal from '@/Components/LoginModal';
 
 interface SideBarProfileProps {
   user: UserProfilePageProps['user'];
@@ -12,14 +13,19 @@ interface SideBarProfileProps {
 }
 
 const SideBarProfile: React.FC<SideBarProfileProps> = ({ user, isMyPage, followingUserNum, followedUserNum, authUserId }) => {
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const isFollowing = user.followers?.some(follower => follower.id === authUserId) ?? false;
   const { post } = useForm();
 
   const handleFollowToggle = () => {
-    if (isFollowing) {
-      post(route('unfollow', { id: user.id }));
+    if (authUserId === null) {
+      setIsLoginModalOpen(true);
     } else {
-      post(route('follow', { id: user.id }));
+      if (isFollowing) {
+        post(route('unfollow', { id: user.id }));
+      } else {
+        post(route('follow', { id: user.id }));
+      }
     }
   };
 
@@ -55,6 +61,7 @@ const SideBarProfile: React.FC<SideBarProfileProps> = ({ user, isMyPage, followi
           </div>
         )}
       </div>
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </div>
   );
 };
