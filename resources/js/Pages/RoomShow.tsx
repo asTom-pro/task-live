@@ -161,17 +161,17 @@ const RoomShow: React.FC = () => {
       <Header auth={auth} ziggy={ziggy} />
       <div className="bg-slate-100 p-10 min-h-screen">
           <div className="max-w-screen-lg mx-auto justify-center">
-            <div className="bg-white">
-            <FontAwesomeIcon icon={faShareAlt} className="ml-2 mt-2" size='lg' color='#7a7a7a' />
+            <div className="bg-white py-5">
+            {/* <FontAwesomeIcon icon={faShareAlt} className="ml-2 mt-2" size='lg' color='#7a7a7a' /> */}
               <div className="text-center">
-                <div className=" leading-100 mt-5">
-                  <div className="leading-100  w-96 mx-auto">
-                    <span className="text-5xl ">{room.name}</span>
+                <div className="mt-5">
+                  <div className="w-full mx-auto px-10">
+                    <span className="text-5xl break-words">{room.name}</span>
                     の部屋
                   </div>
                 </div>
               </div>
-              <div className=" pb-5 w-full flex items-center">
+              <div className="w-full flex items-center">
                 <div className='w-3/12  box-border pr-0'></div>
                 <div className="w-6/12  box-border pr-0">
                   <div className="min-h-150 m-0 text-center"><span className="text-[7rem] block text-center tabular-nums">{formattedTime}</span>
