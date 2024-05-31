@@ -67,12 +67,18 @@ const Top: React.FC = () => {
     <>
       <Head title={title} />
       <div>
-        <Header auth={auth} ziggy={ziggy} />
+      <Header auth={auth} ziggy={ziggy} />
+        {/* <h1>Hello, {props.name}!</h1> */}
+        {/* <h1>Hello!</h1> */}
+        {/* JSXの中で他のコンポーネントを呼び出したり、条件分岐、リスト処理を行う */}
       </div>
       <div className='bg-slate-100 p-10 min-h-screen'>
-        <div className='w-full mx-auto'>
-          <div className="bg-white">
+        <div className='max-w-screen-lg mx-auto flex gap-5 justify-between'>
+          <div className="w-3/4 bg-white">
             <RoomSummary rooms={filteredRooms} onTagSearch={handleTagSearch} />
+          </div>
+          <div className="w-1/4 bg-white">
+            <RoomSearch tags={tags ?? []} onTagSearch={handleTagSearch} selectedTag={selectedTag} />
           </div>
         </div>
       </div>

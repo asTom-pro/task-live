@@ -8,6 +8,8 @@ export interface Room {
   tags: Tag[];
   created_at:string;
   user: User;
+  users: User[];
+  is_room_expired:boolean;
 }
 
 export interface Tag {
