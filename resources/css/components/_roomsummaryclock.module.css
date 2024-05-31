@@ -1,15 +1,8 @@
 .clock {
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
 }
 
-/* .clock-hand {
-  background-color: #999;
-  border-radius: 2px;
-  height: 4px;
-  position: absolute;
-  right: calc(50% - 2px);
-  top: calc(50% - 2px);
-  transform-origin: calc(100% - 2px) center;
-  width: 50%;
-} */
+.clock-hand {
+  height: 3px;
+}

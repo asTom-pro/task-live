@@ -4,10 +4,12 @@ import '@/../css/components/_roomclock.css';
 interface ClockProps {
   duration: number; // ルームの全体の時間
   created_at: string;
-  clockWidth?: string;
-}
+  clockStyles?: {
+    clock: string;
+    clockHand: string;
+  };}
 
-const Clock: React.FC<ClockProps> = ({ duration, created_at, clockWidth }) => {
+const Clock: React.FC<ClockProps> = ({ duration, created_at, clockStyles }) => {
   const clockHandRef = useRef<HTMLDivElement>(null);
   // const [remainingTimeFlash, setRemainingTimeFlash] = useState<number>(0);
 
@@ -29,8 +31,8 @@ const Clock: React.FC<ClockProps> = ({ duration, created_at, clockWidth }) => {
 
   return (
     <div>
-      <div className={`clock ${clockWidth}`}>
-        <div className="clock-hand" ref={clockHandRef}></div>
+      <div className={`clock ${clockStyles?.clock}`}>
+        <div className={`clock-hand ${clockStyles?.clockHand}`} ref={clockHandRef}></div>
       </div>
     </div>
   );
