@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useForm, usePage, Head } from '@inertiajs/react';
+import { useForm, usePage, Head, Link } from '@inertiajs/react';
 import { User, Auth, PageProps } from '@/types';
 import Header from '@/Components/Header';
 import usersample from '@/Pages/img/user-sample.svg';
@@ -76,7 +76,8 @@ const EditProfile: React.FC<EditProfileProps> = ({ user }) => {
               ></textarea>
               {errors.profile_text && <span className="text-red-600">{errors.profile_text}</span>}
             </div>
-            <div className="flex justify-end">
+            <div className="flex justify-between">
+              <Link href={route('user.mypage')} type="button" className="py-2 px-4 rounded" >戻る</Link>
               <button type="submit" className="bg-slate-500 text-white py-2 px-4 rounded" disabled={processing}>更新する</button>
             </div>
           </form>

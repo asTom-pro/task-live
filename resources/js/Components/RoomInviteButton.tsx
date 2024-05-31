@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faShareAlt } from '@fortawesome/free-solid-svg-icons';
+
 
 const RoomInviteButton = () => {
   const [showInvite, setShowInvite] = useState(false);
@@ -19,14 +22,15 @@ const RoomInviteButton = () => {
   return (
     <div className="relative">
       <button 
-        className="py-2 px-4 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:bg-gray-500 dark:hover:bg-gray-600"
+        className="hidden md:inline-block py-2 px-4 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:bg-gray-500 dark:hover:bg-gray-600"
         onClick={handleInviteToggle}
       >
         部屋に招く
       </button>
+      <FontAwesomeIcon icon={faShareAlt} onClick={handleInviteToggle} className="md:hidden px-10" size='lg'  />
 
       {showInvite && (
-        <div className="absolute top-12 left-1/2 transform -translate-x-1/2 mt-2 bg-white p-5 rounded shadow-lg z-10">
+        <div className="absolute top-12 left-1/2 transform -translate-x-1/2 mt-2 bg-white p-5 rounded shadow-lg z-10 text-center">
           <p className="link-text mb-4">
             <span className="font-bold">招待リンク:</span>
             <span className="block mt-2">{window.location.href}</span>

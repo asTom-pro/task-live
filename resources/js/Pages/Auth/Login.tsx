@@ -95,11 +95,19 @@ const Login = ({ status, canResetPassword }: { status?: string, canResetPassword
                         </Link>
                     )}
 
-                    <PrimaryButton className="ml-4 px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:bg-gray-500 dark:hover:bg-gray-600">
+                    <PrimaryButton className="ml-4 px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                         ログイン
                     </PrimaryButton>
                 </div>
               </form>
+              <div className='border-t mt-5'>
+                <Link
+                    href={route('register')}
+                    className="mt-3 w-full block text-center text-sm py-2 rounded-md hover:bg-gray-100 transition"
+                    >
+                    新規登録
+                </Link>
+              </div>
             </div>
           </div>
         </>

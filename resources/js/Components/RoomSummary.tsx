@@ -69,7 +69,7 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
   const activeRooms = userRooms.filter(room => calculateRemainTime(Number(room.time_limit), room.created_at) > 0);
 
   return (
-    <div className="w-full p-10">
+    <div className="w-full lg:px-10 py-10">
       {auth?.user && activeRooms.length > 0 && (
         <div className="mb-5">
           <p className="font-semibold">作成した部屋がまだ開いています</p>
@@ -139,7 +139,7 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
           const remainTime = calculateRemainTime(Number(room.time_limit), room.created_at);
           const userCount = userCounts[room.id] || 0;
           return (
-            <Link key={room.id} href={`/room/${room.id}`} className="w-full md:w-1/2 lg:w-1/4 px-4 mt-3">
+            <Link key={room.id} href={`/room/${room.id}`} className="w-full md:w-1/2 xl:w-1/4 px-2 xl:px-4 mt-3">
               <div className='flex flex-col h-full border border-gray-200'>
                 <div className='relative w-full flex-grow' style={{ height: '180px' }}>
                     <img src={roomBg} className='w-full h-full object-cover absolute inset-0 z-0' alt="" />

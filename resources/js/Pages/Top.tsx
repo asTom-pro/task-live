@@ -69,7 +69,7 @@ const Top: React.FC = () => {
       <div>
         <Header auth={auth} ziggy={ziggy} />
       </div>
-      <div className='bg-slate-100 p-10 min-h-screen'>
+      <div className='bg-slate-100 p-5 lg:p-10 min-h-screen'>
         <div className='w-full mx-auto'>
           <div className="bg-white">
             <RoomSummary rooms={filteredRooms} onTagSearch={handleTagSearch} />

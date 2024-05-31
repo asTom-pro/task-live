@@ -53,7 +53,7 @@
   }
 }
 
-@media only screen and (max-width: 600px) {
+@media (max-width: 767px) {
   .clock {
     width: 50px;
     height: 50px;
@@ -62,5 +62,13 @@
   }
   .clock-hand {
     height: 3px;
+  }
+}
+
+
+@media (max-width:1024px){
+  .clock{
+    width: 100px;
+    height: 100px;
   }
 }

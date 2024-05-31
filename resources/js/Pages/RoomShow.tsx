@@ -159,40 +159,43 @@ const RoomShow: React.FC = () => {
     <>
       <Head title={`${title}の部屋`} />
       <Header auth={auth} ziggy={ziggy} />
-      <div className="bg-slate-100 p-10 min-h-screen">
-          <div className="max-w-screen-lg mx-auto justify-center">
-            <div className="bg-white py-5">
-            {/* <FontAwesomeIcon icon={faShareAlt} className="ml-2 mt-2" size='lg' color='#7a7a7a' /> */}
+      <div className="bg-slate-100 p-5 md:p-10 min-h-screen">
+          <div className="mx-auto justify-center">
+            <div className="bg-white py-5 max-w-screen-lg mx-auto">
+              {/* <FontAwesomeIcon icon={faShareAlt} className="md:hidden px-10" size='lg' /> */}
+              <div className='md:hidden'>
+                <RoomInviteButton />
+              </div>
               <div className="text-center">
-                <div className="mt-5">
+                <div className="md:mt-5">
                   <div className="w-full mx-auto px-10">
-                    <span className="text-5xl break-words">{room.name}</span>
+                    <span className="text-3xl md:text-5xl break-words">{room.name}</span>
                     の部屋
                   </div>
                 </div>
               </div>
               <div className="w-full flex items-center">
-                <div className='w-3/12  box-border pr-0'></div>
-                <div className="w-6/12  box-border pr-0">
-                  <div className="min-h-150 m-0 text-center"><span className="text-[7rem] block text-center tabular-nums">{formattedTime}</span>
+                <div className='md:w-3/12  box-border pr-0'></div>
+                <div className="w-full md:w-6/12  box-border pr-0">
+                  <div className="min-h-150 m-0 text-center"><span className="text-6xl	lg:text-8xl block text-center tabular-nums">{formattedTime}</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="mt-3 flex justify-between px-10 lg:px-0">
                     <div className="float-left ">
                     {remainingTime > 0 ? '現在': '終了' }                 
-                      <span className="text-6xl mx-5">
+                      <span className="text-4xl md:text-6xl mx-5">
                         <span id="show-count">{userCount}</span>
                       </span>人
                     </div>
                     <a href="userpage.php" className="flex justify-end">
                       <div className="flex items-center  ml-auto">
-                        <img src={room.user ? (room.user.profile_img || usersample) : usersample} alt="" className="h-16 w-16 mr-1 object-cover	 rounded-full" />
-                        <span className="text-base">{room.user ? (room.user.name || '名称未設定') : 'ゲスト'}</span>
+                        <img src={room.user ? (room.user.profile_img || usersample) : usersample} alt="" className="h-8 w-8 md:h-16 md:w-16 mr-1 object-cover	rounded-full" />
+                        <span className="text-sm md:text-base">{room.user ? (room.user.name || '名称未設定') : 'ゲスト'}</span>
                       </div>
                     </a>
                   </div>
                 </div>
-                <div className="w-3/12 flex justify-center">
-                  <div className="relative mt-5 -translate-y-5">
+                <div className="hidden md:w-3/12 md:flex justify-center">
+                  <div className="md:relative mt-5 -translate-y-5">
                     <Clock duration={Number(room.time_limit)} created_at = {String(room.created_at)} />
                     <div className="text-center mt-5">
                       <RoomInviteButton />
@@ -201,7 +204,7 @@ const RoomShow: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-5 bg-white min-h-500 box-border p-20 block room-board">
+            <div className="mt-5 bg-white min-h-500 box-border p-10 md:p-20 block room-board  max-w-screen-lg mx-auto">
               <p className="text-center text-lg font-bold">この部屋でやることを宣言しましょう!</p>
               <div className="room-board-user">
               {comments.map(comment => (
@@ -218,19 +221,19 @@ const RoomShow: React.FC = () => {
                 </div>
               ))}
               </div>
-              <div className="pt-100 pb-20 max-w-700 mx-auto overflow-hidden bg-white">
+              <div className="pt-100 md:pb-20 max-w-700 mx-auto bg-white">
                 <textarea 
                 name="comment" 
                 id="" 
                 cols={30} 
                 rows={10} 
-                className="w-full mt-5 h-40 p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                className="w-full mt-5 h-40 md:p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                 value={newComment}
                 onChange={e => setNewComment(e.target.value)}
                 ></textarea>
                 <button 
                 type="button" 
-                className="ml-auto block py-2 px-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:bg-gray-500 dark:hover:bg-gray-600"
+                className="w-full md:w-auto mt-2 md:mt-0  md:ml-auto block py-2 px-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:bg-gray-500 dark:hover:bg-gray-600"
                 onClick={handleCommentSubmit}
                 >コメントする</button>
               </div>
