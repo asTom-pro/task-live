@@ -84,17 +84,21 @@ class RoomController extends Controller
         $uri = request()->path();
         $ipaddress = request()->ip();
 
-        if ($user) {
-            $room->users()->syncWithoutDetaching($user->id);
-        } else {
-            $sessionId = session()->getId();
-            DB::table('room_users')->updateOrInsert(
-                ['room_id' => $room->id, 'session_id' => $sessionId],
-                ['created_at' => now(), 'updated_at' => now()]
-            );
+        $is_room_expired = $this->calculateIsRoomExpired($room->time_limit, $room->created_at);
+
+        if(!$is_room_expired){
+            if ($user) {
+                $room->users()->syncWithoutDetaching($user->id);
+            } else {
+                $sessionId = session()->getId();
+                DB::table('room_users')->updateOrInsert(
+                    ['room_id' => $room->id, 'session_id' => $sessionId],
+                    ['created_at' => now(), 'updated_at' => now()]
+                );
+            }
+            $this->logController->setLogs($uri, $ipaddress);
         }
 
-        $this->logController->setLogs($uri, $ipaddress);
 
         $page_title = $room->name;
 
@@ -118,4 +122,14 @@ class RoomController extends Controller
 
         return response()->json(['user_count' => $userCount]);
     }
+
+    private function calculateIsRoomExpired($durationInSeconds, $createdAt)
+    {
+        $now = new \DateTime();
+        $createdDate = new \DateTime($createdAt);
+        $elapsedTimeInSeconds = ($now->getTimestamp() - $createdDate->getTimestamp());
+
+        return $durationInSeconds - $elapsedTimeInSeconds <= 0;
+    }
+
 }
