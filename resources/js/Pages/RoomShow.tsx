@@ -186,12 +186,17 @@ const RoomShow: React.FC = () => {
                         <span id="show-count">{userCount}</span>
                       </span>人
                     </div>
-                    <a href="userpage.php" className="flex justify-end">
+                    <Link href={`/user/${room.user.id}`} className="flex justify-end">
                       <div className="flex items-center  ml-auto">
-                        <img src={room.user ? (room.user.profile_img || usersample) : usersample} alt="" className="h-8 w-8 md:h-16 md:w-16 mr-1 object-cover	rounded-full" />
+                        <img 
+                        src={room.user ? (room.user.profile_img || usersample) : usersample} 
+                        alt=""
+                         className="h-8 w-8 md:h-16 md:w-16 mr-1 object-cover	rounded-full"
+                         onError={(e) => (e.currentTarget.src = usersample)} 
+                         />
                         <span className="text-sm md:text-base">{room.user ? (room.user.name || '名称未設定') : 'ゲスト'}</span>
                       </div>
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="hidden md:w-3/12 md:flex justify-center">
@@ -210,7 +215,11 @@ const RoomShow: React.FC = () => {
               {comments.map(comment => (
                 <div key={comment.id} className={comment.user?.id === auth.user?.id ? "right-user board-user" : "left-user board-user"}>
                   <div className="user-info">
-                    <img src={comment.user?.profile_img || usersample} alt="" className="user-img" />
+                    <img 
+                    src={comment.user?.profile_img || usersample} 
+                    alt="" className="user-img"
+                    onError={(e) => (e.currentTarget.src = usersample)} 
+                     />
                     <span className="user-name">{comment.user?.name || 'ゲスト'}</span>
                   </div>
                   <div className="comment-container">

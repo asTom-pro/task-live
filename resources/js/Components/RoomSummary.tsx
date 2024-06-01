@@ -62,7 +62,7 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
     const createdDate = new Date(createdAt);
     const elapsedTimeInMinutes = Math.floor((now.getTime() - createdDate.getTime()) / 1000 / 60);
     const durationInMinutes = durationInSeconds / 60;
-    return Math.max(0, durationInMinutes - elapsedTimeInMinutes);
+    return Math.max(0, Math.floor(durationInMinutes - elapsedTimeInMinutes));
   };
 
   const userRooms = auth?.user ? rooms.filter(room => room.user && room.user.id === auth.user?.id) : [];
@@ -137,6 +137,7 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
       <div className='flex flex-wrap'>
         {rooms.map(room => {
           const remainTime = calculateRemainTime(Number(room.time_limit), room.created_at);
+          const timeLimitInMinutes = Math.floor(room.time_limit / 60);
           const userCount = userCounts[room.id] || 0;
           return (
             <Link key={room.id} href={`/room/${room.id}`} className="w-full md:w-1/2 xl:w-1/4 px-2 xl:px-4 mt-3">
@@ -146,7 +147,7 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
                     <div className='absolute right-3 top-3'>
                       <Clock duration={Number(room.time_limit)} created_at={String(room.created_at)} clockStyles={{ clock: styles.clock, clockHand: styles['clock-hand'] }} />
                       <div className="text-center">
-                        <span className="text-2xl mt-3">{remainTime}</span>/{room.time_limit / 60}分
+                        <span className="text-2xl mt-3">{remainTime}</span>/{timeLimitInMinutes}分
                       </div>
                     </div>
                     <div className='absolute right-3 bottom-0'>
