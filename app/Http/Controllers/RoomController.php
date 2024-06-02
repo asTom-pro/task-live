@@ -79,7 +79,7 @@ class RoomController extends Controller
 
     public function show($id): Response
     {
-        $room = Room::with('tags', 'user')->findOrFail($id);
+        $room = Room::with('tags', 'user', 'users')->findOrFail($id);
         $user = auth()->user();
         $uri = request()->path();
         $ipaddress = request()->ip();

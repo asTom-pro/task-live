@@ -11,7 +11,6 @@ import axios from 'axios';
 
 
 
-// コンポーネントで使用する他のコンポーネントやライブラリをインポートする場合はここに記述します
 // 秒数を「hh:mm:ss」に変換する
 const formatTime = (seconds: number): string => {
   const hours = Math.floor(seconds / 3600);
@@ -22,8 +21,7 @@ const formatTime = (seconds: number): string => {
 };
 
 const RoomShow: React.FC = () => {
-  // 状態（state）や他の変数を定義
-  // const [state, setState] = React.useState(initialState);
+
   const { room, auth, ziggy, title } = usePage<PageProps>().props;
   const [comments, setComments] = useState<RoomComment[]>([]);
   const [newComment, setNewComment] = useState('');
@@ -40,19 +38,12 @@ const RoomShow: React.FC = () => {
 
 
   if (!room) {
-    return <div>Loading...</div>; // データが読み込まれるまでの間、ローディング表示を行う
+    return <div>Loading...</div>;
   }
   const { data, setData, post } = useForm<EndedTaskFormData>({
     room_id: room.id, 
     ended_task: ''
   });
-
-  // メソッドやイベントハンドラの定義
-  // const handleEvent = (event) => {
-  //   // イベントハンドリングのロジック
-  // };
-
-
 
   const [limitTimeSec, setLimitTimeSec] = useState<number>(Number(room.time_limit));
 
@@ -210,7 +201,18 @@ const RoomShow: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-5 bg-white min-h-500 box-border p-10 md:p-20 block room-board  max-w-screen-lg mx-auto">
+            <div className="mt-5 bg-white min-h-500 box-border px-10 py-5 block room-board  max-w-screen-lg mx-auto">
+              <p className='text-center font-bold'>参加者</p>
+              <div className='my-5 justify-center flex'>
+                {room.users.map(user => (
+                  <img 
+                  src={user.profile_img || usersample} 
+                  alt="" 
+                  className="user-img mr-2"
+                  onError={(e) => (e.currentTarget.src = usersample)} 
+                  />
+                ))}
+              </div>
               <p className="text-center text-lg font-bold">この部屋でやることを宣言しましょう!</p>
               <div className="room-board-user">
               {comments.map(comment => (
