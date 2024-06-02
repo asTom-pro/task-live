@@ -1,5 +1,5 @@
 // Header.tsx
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import logo from '@/Pages/img/logo.svg';
 import usersample from '@/Pages/img/user-sample.svg';
@@ -17,6 +17,14 @@ const Header: React.FC<HeaderProps> = ({ auth, ziggy }) => {
 
   const { data, setData, get } = useForm({ search: '' });
   const [isSearchBoxVisible, setIsSearchBoxVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const searchQuery = params.get('search');
+    if (searchQuery) {
+      setData('search', searchQuery);
+    }
+  }, []);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
@@ -61,6 +69,7 @@ const Header: React.FC<HeaderProps> = ({ auth, ziggy }) => {
                     className="hidden lg:inline-block input search-input"
                     onChange={handleSearchChange}
                     onKeyDown={handleKeyPress}
+                    value={data.search}
                   />
                 </label>
                 <button type="submit">
