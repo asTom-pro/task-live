@@ -152,7 +152,8 @@ const RoomShow: React.FC = () => {
 
 
     
-
+  const user = room.user || { id: null, profile_img: usersample, name: 'ゲスト' };
+  const userLink = user.id ? `/user/${user.id}` : '#';
 
   // コンポーネントがレンダリングするUI
   return (
@@ -186,15 +187,15 @@ const RoomShow: React.FC = () => {
                         <span id="show-count">{userCount}</span>
                       </span>人
                     </div>
-                    <Link href={`/user/${room.user.id}`} className="flex justify-end">
+                    <Link href={userLink} className="flex justify-end">
                       <div className="flex items-center  ml-auto">
                         <img 
-                        src={room.user ? (room.user.profile_img || usersample) : usersample} 
+                        src={user.profile_img || usersample} 
                         alt=""
                          className="h-8 w-8 md:h-16 md:w-16 mr-1 object-cover	rounded-full"
                          onError={(e) => (e.currentTarget.src = usersample)} 
                          />
-                        <span className="text-sm md:text-base">{room.user ? (room.user.name || '名称未設定') : 'ゲスト'}</span>
+                        <span className="text-sm md:text-base">{user.name || '名称未設定'}</span>
                       </div>
                     </Link>
                   </div>
@@ -296,10 +297,4 @@ const RoomShow: React.FC = () => {
   );
 };
 
-// 必要に応じてPropTypesで型チェックを行う
-// MyComponent.propTypes = {
-//   name: PropTypes.string
-// };
-
-// コンポーネントをエクスポート
 export default RoomShow;
