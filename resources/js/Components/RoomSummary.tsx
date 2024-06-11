@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { usePage, Link } from '@inertiajs/react';
-import { PageProps, Room } from '@/types';
+import { PageProps, Room, PaginatedResponse } from '@/types';
 import usersample from '@/Pages/img/user-sample.svg';
 import Clock from '@/Components/Clock';
+import Pagination from '@/Components/Pagination';
 import axios from 'axios';
 import styles from '../../css/components/_roomsummaryclock.module.css';
 import roomBg from '@/Pages/img/room-bg.png'
 
 interface RoomSummaryProps {
-  rooms: Room[];
+  rooms: PaginatedResponse<Room>;
   onTagSearch: (tag: string) => void;
 }
 
@@ -21,7 +22,7 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
   useEffect(() => {
     const fetchUserCounts = async () => {
       const counts: { [roomId: number]: number } = {};
-      for (const room of rooms) {
+      for (const room of rooms.data) {
         try {
           const response = await axios.get(`/room/${room.id}/user-count`);
           counts[room.id] = response.data.user_count;
@@ -36,12 +37,12 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
     const interval = setInterval(fetchUserCounts, 10000);
 
     return () => clearInterval(interval);
-  }, [rooms]);
+  }, [rooms.data]);
 
 
   useEffect(() => {
     const positions: { [roomId: number]: { [userId: number]: { top: string, left: string } } } = {};
-    rooms.forEach(room => {
+    rooms.data.forEach(room => {
       positions[room.id] = {};
       room.users.forEach(user => {
         positions[room.id][user.id] = {
@@ -51,9 +52,9 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
       });
     });
     setUserPositions(positions);
-  }, [rooms]);
+  }, [rooms.data]);
 
-  if (!rooms || rooms.length === 0) {
+  if (!rooms.data || rooms.data.length === 0) {
     return <div className='text-center'>Loading...</div>;
   }
 
@@ -65,7 +66,7 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
     return Math.max(0, Math.floor(durationInMinutes - elapsedTimeInMinutes));
   };
 
-  const userRooms = auth?.user ? rooms.filter(room => room.user && room.user.id === auth.user?.id) : [];
+  const userRooms = auth?.user ? rooms.data.filter(room => room.user && room.user.id === auth.user?.id) : [];
   const activeRooms = userRooms.filter(room => calculateRemainTime(Number(room.time_limit), room.created_at) > 0);
 
   return (
@@ -112,11 +113,10 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
                             {room.tags && room.tags.map(tag => (
                               <Link 
                                 key={tag.id} 
-                                className="text-xs	mr-3 box-border px-1 py-px bg-slate-500 text-white rounded-md inline-block" 
+                                className="text-xs mr-3 box-border px-1 py-px bg-slate-500 text-white rounded-md inline-block" 
                                 href={`/tags/${tag.id}`}
                                 onClick={(e) => {
                                   e.preventDefault();
-                                  console.log('Tag clicked:', tag.name);
                                   onTagSearch(tag.name);
                                 }}                      
                               >
@@ -155,7 +155,7 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
       )}
       <p className="font-semibold px-4">参加する部屋を選択</p>
       <div className='flex flex-wrap'>
-        {rooms.map(room => {
+        {rooms.data.map(room => {
           const remainTime = calculateRemainTime(Number(room.time_limit), room.created_at);
           const timeLimitInMinutes = Math.floor(room.time_limit / 60);
           const userCount = userCounts[room.id] || 0;
@@ -198,9 +198,9 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
                           href={`/tags/${tag.id}`}
                           onClick={(e) => {
                             e.preventDefault();
-                            console.log('Tag clicked:', tag.name);
                             onTagSearch(tag.name);
-                          }}                      >
+                          }}
+                          >
                             {tag.name}
                           </Link>
                         ))}
@@ -230,6 +230,7 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
             </Link>
           );
         })}
+        <Pagination links={rooms.links} />
       </div>
     </div>
   );

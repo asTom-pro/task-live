@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Room;
 use Inertia\Inertia;
 use Inertia\Response;
 
-use App\Models\Room;
 use App\Models\RoomTag;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 class HomeController extends Controller
@@ -35,13 +36,15 @@ class HomeController extends Controller
             'users' => function ($query) {
                 $query->select(['id','profile_img']);
             }
-        ])->orderBy('created_at', 'desc')->get();
+        ])->orderBy('created_at', 'desc')->paginate(20);
 
-        $rooms->each(function($room) {
+        $rooms->getCollection()->each(function($room) {
             $room->is_room_expired = $this->calculateIsRoomExpired($room->time_limit, $room->created_at);
         });
         
+        
         $tags = RoomTag::all();
+        
 
         return Inertia::render('Top', [
             'auth' => [
