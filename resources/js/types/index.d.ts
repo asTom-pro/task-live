@@ -64,7 +64,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     auth: Auth;
     ziggy?: { location: string };
     room?: Room;
-    rooms?: Room[]; 
+    rooms?: PaginatedResponse<Room>;
     tags?: Tag[]; 
     search?: string; 
 };

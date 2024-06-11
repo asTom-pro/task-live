@@ -2,39 +2,40 @@ import React, { useState, useEffect } from 'react';
 import { usePage } from '@inertiajs/react';
 import { router, Head } from '@inertiajs/react';
 
-
 import Header from '@/Components/Header'; 
 import RoomSummary from '@/Components/RoomSummary';
 import RoomSearch from '@/Components/RoomSearch';
 
-import { Room, PageProps } from '@/types';
+import { Room, PageProps, PaginatedResponse } from '@/types';
 
-
-
-// コンポーネントで使用する他のコンポーネントやライブラリをインポートする場合はここに記述します
-
-// コンポーネントの定義
 const Top: React.FC = () => {
-  // 状態（state）や他の変数を定義
   const title = 'ホーム';
   useEffect(() => {
     document.title = title;
   }, [title]);
-  const { auth, ziggy, tags, search, rooms = [] } = usePage<PageProps>().props;
-  const [filteredRooms, setFilteredRooms] = useState<Room[]>(rooms as Room[]);
+
+  const { auth, ziggy, tags, search, rooms } = usePage<PageProps>().props;
+
+  // rooms が PaginatedResponse<Room> 型であることを確認
+  const initialRooms: PaginatedResponse<Room> = rooms ?? {
+    data: [],
+    links: [],
+    meta: { current_page: 1, last_page: 1, per_page: 10, total: 0 },
+  };
+
+  const [filteredRooms, setFilteredRooms] = useState<PaginatedResponse<Room>>(initialRooms);
   const [selectedTag, setSelectedTag] = useState<string>('');
 
   useEffect(() => {
     if (search) {
-      setFilteredRooms(
-        rooms.filter((room) =>
-          room.name.toLowerCase().includes(search.toLowerCase())
-        )
+      const filteredData = initialRooms.data.filter((room: Room) =>
+        room.name.toLowerCase().includes(search.toLowerCase())
       );
+      setFilteredRooms({ ...initialRooms, data: filteredData });
     } else {
-      setFilteredRooms(rooms as Room[]);
+      setFilteredRooms(initialRooms);
     }
-  }, [search, rooms]);
+  }, [search, initialRooms]);
 
   const handleTagSearch = async (tag: string) => {
     setSelectedTag(tag);
@@ -42,7 +43,7 @@ const Top: React.FC = () => {
       router.get('/', { tag }, {
         preserveState: true, 
         onSuccess: (page) => {
-          const newRooms = page.props.rooms as Room[] ?? [];
+          const newRooms = page.props.rooms as PaginatedResponse<Room>;
           setFilteredRooms(newRooms);
         },
         onError: (errors) => {
@@ -54,15 +55,6 @@ const Top: React.FC = () => {
     }
   };
 
-
-
-  // メソッドやイベントハンドラの定義
-  // const handleEvent = (event) => {
-  //   // イベントハンドリングのロジック
-  // };
-
-
-  // コンポーネントがレンダリングするUI
   return (
     <>
       <Head title={title} />
@@ -80,12 +72,4 @@ const Top: React.FC = () => {
   );
 };
 
-// Propsの型定義やデフォルト値の設定が必要な場合はここで設定
-
-// 必要に応じてPropTypesで型チェックを行う
-// MyComponent.propTypes = {
-//   name: PropTypes.string
-// };
-
-// コンポーネントをエクスポート
 export default Top;
