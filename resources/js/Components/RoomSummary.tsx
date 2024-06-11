@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { usePage, Link } from '@inertiajs/react';
 import { PageProps, Room, PaginatedResponse } from '@/types';
 import usersample from '@/Pages/img/user-sample.svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDoorOpen } from '@fortawesome/free-solid-svg-icons';
 import Clock from '@/Components/Clock';
 import Pagination from '@/Components/Pagination';
 import axios from 'axios';
@@ -17,6 +19,8 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
   const { auth } = usePage<PageProps>().props;
   const [userCounts, setUserCounts] = useState<{ [roomId: number]: number }>({});
   const [userPositions, setUserPositions] = useState<{ [roomId: number]: { [userId: number]: { top: string, left: string } } }>({});
+  const [hoveredRoomId, setHoveredRoomId] = useState<number | null>(null);
+
 
 
   useEffect(() => {
@@ -53,6 +57,7 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
     });
     setUserPositions(positions);
   }, [rooms.data]);
+  
 
   if (!rooms.data || rooms.data.length === 0) {
     return <div className='text-center'>Loading...</div>;
@@ -160,7 +165,13 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
           const timeLimitInMinutes = Math.floor(room.time_limit / 60);
           const userCount = userCounts[room.id] || 0;
           return (
-            <Link key={room.id} href={`/room/${room.id}`} className="w-full md:w-1/2 xl:w-1/4 px-2 xl:px-4 mt-3">
+            <Link 
+            key={room.id} 
+            href={`/room/${room.id}`} 
+            className="w-full md:w-1/2 xl:w-1/4  px-2 xl:px-4 mt-3 relative"
+            onMouseEnter={() => setHoveredRoomId(room.id)}
+            onMouseLeave={() => setHoveredRoomId(null)}
+            >
               <div className='flex flex-col h-full border border-gray-200'>
                 <div className='relative w-full flex-grow' style={{ height: '180px' }}>
                     <img src={roomBg} className='w-full h-full object-cover absolute inset-0 z-0' alt="" />
@@ -227,6 +238,25 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
                   </div>
                 </div>
               </div>
+              <div 
+                className={`absolute top-0 left-0 z-50 w-full h-full px-2 xl:px-4`}
+              >
+                <div 
+                className={`w-full flex items-center justify-center transition-opacity duration-100 ${hoveredRoomId === room.id ? 'opacity-100' : 'opacity-0'}`}
+                style={{
+                  height: '100%',
+                  backgroundColor: 'rgba(108, 122, 137, 0.95)',
+                }}
+                >
+                  {hoveredRoomId === room.id && (
+                    <div className='flex flex-col items-center'>
+                      <FontAwesomeIcon icon={faDoorOpen} className="" size="2x" color="#f0f8ff" />
+                      <span className='text-slate-100 font-bold'>入室する</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
             </Link>
           );
         })}
