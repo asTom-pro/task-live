@@ -164,6 +164,17 @@ const RoomShow: React.FC = () => {
                     <span className="text-3xl md:text-5xl break-words">{room.name}</span>
                     の部屋
                   </div>
+                  <div>
+                    {room.tags && room.tags.map(tag => (
+                      <Link 
+                        key={tag.id} 
+                        className="text-xs mr-3 box-border px-1 py-px bg-slate-500 text-white rounded-md inline-block" 
+                        href={route('home', { tag: tag.name })}
+                      >
+                        {tag.name}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
               <div className="w-full flex items-center">

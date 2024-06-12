@@ -22,6 +22,9 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
   const [hoveredRoomId, setHoveredRoomId] = useState<number | null>(null);
 
 
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentTag = urlParams.get('tag') || '';
+
 
   useEffect(() => {
     const fetchUserCounts = async () => {
@@ -73,6 +76,8 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
 
   const userRooms = auth?.user ? rooms.data.filter(room => room.user && room.user.id === auth.user?.id) : [];
   const activeRooms = userRooms.filter(room => calculateRemainTime(Number(room.time_limit), room.created_at) > 0);
+  const activeRoomIds = new Set(activeRooms.map(room => room.id));
+  const rooms_exclude_activeRooms = rooms.data.filter(room => !activeRoomIds.has(room.id));
 
   return (
     <div className="w-full lg:px-10 py-10">
@@ -85,7 +90,13 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
               const timeLimitInMinutes = Math.floor(room.time_limit / 60);
               const userCount = userCounts[room.id] || 0;
               return (
-                <Link key={room.id} href={`/room/${room.id}`} className="w-full md:w-1/2 xl:w-1/4 px-2 mt-3">
+                <Link 
+                key={room.id} 
+                href={`/room/${room.id}`} 
+                className="w-full md:w-1/2 xl:w-1/4  px-2 xl:px-4 mt-3 relative"
+                onMouseEnter={() => setHoveredRoomId(room.id)}
+                onMouseLeave={() => setHoveredRoomId(null)}
+                >
                   <div className='flex flex-col h-full border border-gray-200'>
                     <div className='relative w-full flex-grow' style={{ height: '180px' }}>
                       <img src={roomBg} className='w-full h-full object-cover absolute inset-0 z-0' alt="" />
@@ -151,6 +162,24 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
                       </div>
                     </div>
                   </div>
+                  <div 
+                className={`absolute top-0 left-0 z-50 w-full h-full px-2 xl:px-4`}
+              >
+                <div 
+                className={`w-full flex items-center justify-center transition-opacity duration-100 ${hoveredRoomId === room.id ? 'opacity-100' : 'opacity-0'}`}
+                style={{
+                  height: '100%',
+                  backgroundColor: 'rgba(108, 122, 137, 0.95)',
+                }}
+                >
+                  {hoveredRoomId === room.id && (
+                    <div className='flex flex-col items-center'>
+                      <FontAwesomeIcon icon={faDoorOpen} className="" size="2x" color="#f0f8ff" />
+                      <span className='text-slate-100 font-bold'>入室する</span>
+                    </div>
+                  )}
+                </div>
+              </div>
                 </Link>
               );
             })}
@@ -160,7 +189,7 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
       )}
       <p className="font-semibold px-4">参加する部屋を選択</p>
       <div className='flex flex-wrap'>
-        {rooms.data.map(room => {
+        {rooms_exclude_activeRooms.map(room => {
           const remainTime = calculateRemainTime(Number(room.time_limit), room.created_at);
           const timeLimitInMinutes = Math.floor(room.time_limit / 60);
           const userCount = userCounts[room.id] || 0;
@@ -260,7 +289,14 @@ const RoomSummary: React.FC<RoomSummaryProps> = ({ rooms, onTagSearch }) => {
             </Link>
           );
         })}
-        <Pagination links={rooms.links} />
+      </div>
+      <div className='flex justify-center'>
+      <Pagination
+        links={rooms.links.map(link => ({
+          ...link,
+          url: link.url ? (currentTag ? `${link.url}&tag=${currentTag}` : link.url) : null
+        }))}
+      />
       </div>
     </div>
   );
