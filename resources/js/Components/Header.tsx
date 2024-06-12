@@ -102,7 +102,7 @@ const Header: React.FC<HeaderProps> = ({ auth, ziggy }) => {
                                 <img
                                   src={auth.user?.profile_img || usersample}
                                   alt={auth.user?.name}
-                                  className="rounded-full object-cover w-12 h-12"
+                                  className="rounded-full object-cover w-8 h-8"
                                 />
                                 <span className="user-name"></span>
                               </div>
