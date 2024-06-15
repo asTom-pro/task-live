@@ -1,66 +1,77 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TASKLIVE README
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## はじめに
+こんにちは！ご訪問いただき、ありがとうございます！
 
-## About Laravel
+このREADMEでは、私が開発しているWEBアプリケーション「TASKLIVE」について紹介します。このアプリは、リアルタイムで同じタスクを行う人々が集まり、一緒に作業を進めるためのプラットフォームです。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## アプリの概要
+TASKLIVEは、ユーザーが仮想の「部屋」を作成し、他のユーザーと共に作業を進めることができるWEBアプリケーションです。各部屋には制限時間が設けられ、リアルタイムで残り時間を表示する機能も備えています。これにより、タスク管理がより効率的に行えるツールとなっています。
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 開発背景
+私は都内の大学で建築を学んでおり、コロナ禍でのリモート学習中に、友人と同じ空間で議論しながら作業を進める環境をオンラインで再現したいと考え、TASKLIVEを開発しました。オフラインで行っていた共同作業をオンラインでも実現するために、このアプリを作成しました。
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 開発内容
+### 環境
+| 種類          | 技術名                                      |
+|---------------|----------------------------------------------|
+| フロントエンド| React（^18.2.0）,TypeScript（^5.0.2）,Tailwind CSS（^3.2.1）,Inertia.js（^1.0.16） |
+| サーバーサイド| Laravel（^11.0）, Inertia.js（^1.0）           |
+| データベース  | MySQL（^5.7）                               |
+| ランタイム    | Node.js（^16.20.2）                         |
+| ホスティング  | Xserver                                     |
+| バージョン管理| GitHub                                      |
 
-## Learning Laravel
+コードは以下のGitHubリンクからご覧いただけます。
+[GitHub リポジトリ](https://github.com/asTom-pro/task-live)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## アプリの内容
+### 部屋の参加
+- トップページで部屋一覧を閲覧できます。
+  ![TOP](images/TOP.png)
+- 特定の部屋を選択すると、部屋に参加できます。
+  ![部屋](images/部屋.png)
+- チャットのようにコメントが可能で、コミュニケーションを取りながらタスクを行えます。
+  ![部屋詳細コメント](images/部屋詳細コメント.png)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 完了タスクの記録
+- 制限時間になると、完了タスクの入力が可能です。
+  ![完了タスク](images/完了タスク.png)
+- 入力した内容はマイページで閲覧できます。
+  ![ユーザーページ](images/ユーザーページ.png)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 部屋の検索
+- ヘッダーにあるフォームや、各部屋に設定されているタグから部屋を絞り込むことができます。
+  ![ホーム](images/ホーム.png)
 
-## Laravel Sponsors
+## 苦労や反省した点
+### 時計の針のカクツキ
+- 残り時間をuseStateで管理していたため、毎秒更新されるたびにレンダリングが実施され、針がカクつく現象が発生しました。
+- useEffectで初期状態のみ管理し、CSSのアニメーションで針を回転させるようにして改善しました。
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### スタイルの適用問題
+- 別ページで適用したスタイルが次のページにも影響を与えていました。
+- CSS Modulesを利用して、ページ独自のスタイルをコンポーネント単位で限定することで解決しました。
 
-### Premium Partners
+### 本番環境での動作問題
+- 最新のNode.jsバージョンが本番環境で動作しない問題が発生しました。
+- Node.jsのバージョンをダウングレードすることで対応しました。
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## 最新技術を使ってみた感想
+### TypeScript
+- エディタ上でのエラー検知により、生産性が向上しました。
 
-## Contributing
+### Tailwind CSS
+- 細かいスタイル調整が可能で、開発スピードが向上しました。
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### React、Laravel（v11）、Inertia.js
+- これらの技術を使いこなすにはまだ学習が必要ですが、今後さらに理解を深めていきます。
 
-## Code of Conduct
+## まとめ
+今回の開発では、最新技術の導入により多くの学びがありました。特にTypeScriptやTailwind CSSの導入により、開発プロセスの効率化やユーザー体験の向上が図れました。今後は、ユーザーフィードバックを取り入れ、機能の改善と拡充を図っていきます。また、リアルタイム通信やパフォーマンスの最適化にも注力していきます。
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+以上がTASKLIVEのREADMEです。ご覧いただきありがとうございました。
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 参考にさせていただいたREADMEのURL
+[参考README1](#)
+[参考README2](#)
