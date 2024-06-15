@@ -67,6 +67,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     rooms?: PaginatedResponse<Room>;
     tags?: Tag[]; 
     search?: string; 
+    url:string;
 };
 
 export interface UserProfileProps {
@@ -95,4 +96,3 @@ export interface EndedTaskFormData {
   ended_task: string;
   room_id: number;
 }
-

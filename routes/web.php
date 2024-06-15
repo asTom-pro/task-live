@@ -50,10 +50,6 @@ Route::get('/room', function () {
     ]);
 })->name('room');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 
 Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
 

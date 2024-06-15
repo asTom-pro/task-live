@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { usePage } from '@inertiajs/react';
 import { router, Head } from '@inertiajs/react';
 
-import Header from '@/Components/Header'; 
 import RoomSummary from '@/Components/RoomSummary';
 import RoomSearch from '@/Components/RoomSearch';
+import BaseLayout from '@/Layouts/BaseLayout';
+
+
 
 import { Room, PageProps, PaginatedResponse } from '@/types';
 
@@ -14,9 +16,8 @@ const Top: React.FC = () => {
     document.title = title;
   }, [title]);
 
-  const { auth, ziggy, tags, search, rooms } = usePage<PageProps>().props;
+  const { auth, ziggy, tags, search, rooms, url } = usePage<PageProps>().props;
 
-  // rooms が PaginatedResponse<Room> 型であることを確認
   const initialRooms: PaginatedResponse<Room> = rooms ?? {
     data: [],
     links: [],
@@ -58,16 +59,15 @@ const Top: React.FC = () => {
   return (
     <>
       <Head title={title} />
-      <div>
-        <Header auth={auth} ziggy={ziggy} />
-      </div>
-      <div className='bg-slate-100 p-5 lg:p-10 min-h-screen'>
-        <div className='w-full mx-auto'>
-          <div className="bg-white">
-            <RoomSummary rooms={filteredRooms} onTagSearch={handleTagSearch} />
+      <BaseLayout auth={auth} ziggy={ziggy}>
+        <div className='bg-slate-100 p-5 lg:p-10 min-h-screen'>
+          <div className='w-full mx-auto'>
+            <div className="bg-white">
+              <RoomSummary rooms={filteredRooms} onTagSearch={handleTagSearch} />
+            </div>
           </div>
         </div>
-      </div>
+      </BaseLayout>
     </>
   );
 };
