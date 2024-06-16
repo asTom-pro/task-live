@@ -40,7 +40,7 @@ https://task-live.com
 
 
 ## ER図
-![er図_edit.png](docs/images/er図_edit.png)
+![er図_edit.png](docs/images/er_edited.png)
 
 
 
